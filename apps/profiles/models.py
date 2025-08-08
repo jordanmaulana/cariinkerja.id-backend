@@ -26,6 +26,8 @@ class Profile(BaseModel):
         choices=AVAILABILITY_TYPE_CHOICES,
         default=AVAILABILITY_TYPE_DEFAULT,
     )
+    soft_skill_gaps = models.JSONField(default=list, blank=True)
+    hard_skill_gaps = models.JSONField(default=list, blank=True)
 
     def obfuscate_email(self):
         if self.actor:

@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
     "email": "jordan@gmail.com",
-    "password": "admin123",
+    "password": "admin123"
 }
 
 ### Login
@@ -12,7 +12,7 @@ POST http://localhost:8000/api/v1/auth/login/
 Content-Type: application/json
 
 {
-    "email": "jordanmaulana25@gmail.com",
+    "email": "jordan@gmail.com",
     "password": "admin123"
 }
 

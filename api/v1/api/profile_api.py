@@ -37,9 +37,7 @@ class ProfileAPI(viewsets.ViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    @swagger_auto_schema(
-        responses={200: ProfileSerializer, 404: "Profile not found"}
-    )
+    @swagger_auto_schema(responses={200: ProfileSerializer, 404: "Profile not found"})
     def list(self, request):
         profile = self.get_queryset().first()
         if not profile:
@@ -51,17 +49,17 @@ class ProfileAPI(viewsets.ViewSet):
 
     @swagger_auto_schema(
         request_body=ProfileSerializer,
-        responses={201: ProfileSerializer, 400: "Validation errors"}
+        responses={201: ProfileSerializer, 400: "Validation errors"},
     )
     def create(self, request):
         # Check if profile already exists for this user
         existing_profile = self.get_queryset().first()
         if existing_profile:
             return Response(
-                {"error": "Profile already exists for this user"}, 
-                status=status.HTTP_400_BAD_REQUEST
+                {"error": "Profile already exists for this user"},
+                status=status.HTTP_400_BAD_REQUEST,
             )
-        
+
         serializer = ProfileSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(actor=request.user)

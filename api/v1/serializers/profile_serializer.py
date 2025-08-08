@@ -11,7 +11,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = [
             "uid",
-            "name", 
+            "name",
             "profile",
             "linkedin_url",
             "job_title",
@@ -21,7 +21,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             "created_on",
             "updated_on",
             "email",
-            "username"
+            "username",
         ]
         read_only_fields = ["uid", "created_on", "updated_on"]
 

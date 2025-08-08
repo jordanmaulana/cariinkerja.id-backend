@@ -12,11 +12,11 @@ class ProfileAPITestCase(APITestCase):
             username="testuser", email="test@example.com", password="old_password"
         )
         self.profile = Profile.objects.create(
-            actor=self.user, 
-            name="Test User", 
+            actor=self.user,
+            name="Test User",
             job_title="Software Developer",
             area="SE_ASIA",
-            availability_type="REMOTE"
+            availability_type="REMOTE",
         )
         self.client.force_authenticate(user=self.user)
 
@@ -54,7 +54,7 @@ class ProfileAPITestCase(APITestCase):
         data = {
             "name": "Updated Name",
             "job_title": "Senior Developer",
-            "linkedin_url": "https://linkedin.com/in/testuser"
+            "linkedin_url": "https://linkedin.com/in/testuser",
         }
         response = self.client.put(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)

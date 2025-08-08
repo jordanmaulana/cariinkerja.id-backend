@@ -1,0 +1,248 @@
+### Profile API Workflow Examples
+### Complete user journey examples from registration to profile management
+
+@baseUrl = http://localhost:8000/api/v1
+@authToken = 294070b6fe2eda87f2d3e47671b8258c2c7c1cb3
+@profileUid = 
+
+### Step 1: User Registration and Login
+### (Use auth.http for these steps first)
+
+### Step 2: Create Initial Profile
+# @name createProfile
+POST {{baseUrl}}/profile/
+Authorization: Token {{authToken}}
+Content-Type: application/json
+
+{
+    "name": "Jordan Maulana",
+    "profile": "Experienced full-stack developer with expertise in Django, React, and cloud technologies.",
+    "linkedin_url": "https://linkedin.com/in/jordanmaulana",
+    "job_title": "Senior Software Engineer",
+    "area": "SE_ASIA",
+    "country": "Indonesia",
+    "availability_type": "REMOTE"
+}
+
+### Step 3: View Created Profile
+GET {{baseUrl}}/profile/
+Authorization: Token {{authToken}}
+
+### Step 4: Update Profile Information
+PUT {{baseUrl}}/profile/{{profileUid}}/
+Authorization: Token {{authToken}}
+Content-Type: application/json
+
+{
+    "name": "Jordan Maulana",
+    "profile": "Senior full-stack developer with 8+ years of experience. Specialized in Django, FastAPI, React, and AWS cloud services. Currently leading backend architecture for high-scale applications.",
+    "linkedin_url": "https://linkedin.com/in/jordanmaulana-dev",
+    "job_title": "Lead Backend Developer",
+    "area": "SE_ASIA",
+    "country": "Indonesia",
+    "availability_type": "HYBRID"
+}
+
+### Step 5: Partial Profile Update (Job Title Promotion)
+PATCH {{baseUrl}}/profile/{{profileUid}}/
+Authorization: Token {{authToken}}
+Content-Type: application/json
+
+{
+    "job_title": "Technical Lead",
+    "profile": "Technical Lead with 8+ years of experience in full-stack development. Currently leading a team of 5 developers and architecting scalable backend solutions using Django and microservices."
+}
+
+### Step 6: Update Availability (Remote to Hybrid)
+PATCH {{baseUrl}}/profile/{{profileUid}}/
+Authorization: Token {{authToken}}
+Content-Type: application/json
+
+{
+    "availability_type": "HYBRID"
+}
+
+### Step 7: Update Location (Moving to Different Area)
+PATCH {{baseUrl}}/profile/{{profileUid}}/
+Authorization: Token {{authToken}}
+Content-Type: application/json
+
+{
+    "area": "APAC",
+    "country": "Singapore"
+}
+
+### Step 8: Change Password for Security
+POST {{baseUrl}}/profile/change-password/
+Authorization: Token {{authToken}}
+Content-Type: application/json
+
+{
+    "old_password": "oldpassword123",
+    "new_password": "newSecurePassword456!"
+}
+
+### Step 9: Final Profile Check
+GET {{baseUrl}}/profile/
+Authorization: Token {{authToken}}
+
+### Complete Freelancer Workflow Example
+
+### Freelancer Registration Flow
+POST {{baseUrl}}/profile/
+Authorization: Token {{authToken}}
+Content-Type: application/json
+
+{
+    "name": "Alex Thompson",
+    "profile": "Freelance web developer specializing in modern JavaScript frameworks and responsive design. Available for short-term and long-term projects.",
+    "linkedin_url": "https://linkedin.com/in/alexthompson-freelance",
+    "job_title": "Freelance Web Developer",
+    "area": "EU",
+    "country": "United Kingdom",
+    "availability_type": "REMOTE"
+}
+
+### Update Freelancer Skills
+PATCH {{baseUrl}}/profile/{{profileUid}}/
+Authorization: Token {{authToken}}
+Content-Type: application/json
+
+{
+    "profile": "Freelance full-stack developer with 5+ years of experience. Specialized in React, Node.js, MongoDB, and modern web technologies. Successfully completed 50+ projects for clients worldwide. Available for both short-term sprints and long-term engagements."
+}
+
+### Corporate Employee Workflow Example
+
+### Corporate Employee Profile
+POST {{baseUrl}}/profile/
+Authorization: Token {{authToken}}
+Content-Type: application/json
+
+{
+    "name": "Sarah Chen",
+    "profile": "Software engineer at a Fortune 500 company with expertise in enterprise applications and agile methodologies.",
+    "linkedin_url": "https://linkedin.com/in/sarahchen-engineer",
+    "job_title": "Software Engineer II",
+    "area": "APAC",
+    "country": "Australia",
+    "availability_type": "ONSITE"
+}
+
+### Promotion Update
+PATCH {{baseUrl}}/profile/{{profileUid}}/
+Authorization: Token {{authToken}}
+Content-Type: application/json
+
+{
+    "job_title": "Senior Software Engineer",
+    "profile": "Senior software engineer with 6+ years of experience in enterprise application development. Led multiple successful projects and mentored junior developers. Expert in Java, Spring Boot, and microservices architecture."
+}
+
+### Remote Work Transition
+PATCH {{baseUrl}}/profile/{{profileUid}}/
+Authorization: Token {{authToken}}
+Content-Type: application/json
+
+{
+    "availability_type": "REMOTE",
+    "profile": "Senior software engineer with 6+ years of experience, recently transitioned to full remote work. Expert in distributed systems and remote team collaboration."
+}
+
+### Startup Employee Workflow Example
+
+### Startup Employee Initial Profile
+POST {{baseUrl}}/profile/
+Authorization: Token {{authToken}}
+Content-Type: application/json
+
+{
+    "name": "Mike Rodriguez",
+    "profile": "Full-stack developer at an early-stage startup. Wearing multiple hats and building products from 0 to 1.",
+    "linkedin_url": "https://linkedin.com/in/mikerodriguez-startup",
+    "job_title": "Full Stack Developer",
+    "area": "OTHER",
+    "country": "United States",
+    "availability_type": "HYBRID"
+}
+
+### Rapid Growth Update
+PATCH {{baseUrl}}/profile/{{profileUid}}/
+Authorization: Token {{authToken}}
+Content-Type: application/json
+
+{
+    "job_title": "Lead Developer",
+    "profile": "Lead developer at a fast-growing startup. Built the entire platform from scratch and now leading a team of 3 developers. Expert in rapid prototyping and scalable architecture."
+}
+
+### International Relocation Workflow
+
+### Pre-Relocation Profile
+POST {{baseUrl}}/profile/
+Authorization: Token {{authToken}}
+Content-Type: application/json
+
+{
+    "name": "Elena Vasquez",
+    "profile": "Backend developer looking for international opportunities.",
+    "linkedin_url": "https://linkedin.com/in/elenavasquez-dev",
+    "job_title": "Backend Developer",
+    "area": "OTHER",
+    "country": "Mexico",
+    "availability_type": "REMOTE"
+}
+
+### Post-Relocation Update
+PATCH {{baseUrl}}/profile/{{profileUid}}/
+Authorization: Token {{authToken}}
+Content-Type: application/json
+
+{
+    "area": "EU",
+    "country": "Germany",
+    "availability_type": "HYBRID",
+    "profile": "Backend developer recently relocated to Germany. Experienced in Python, Django, and PostgreSQL. Open to both remote and hybrid opportunities in the European market."
+}
+
+### Career Transition Workflow
+
+### Initial Profile (Previous Career)
+POST {{baseUrl}}/profile/
+Authorization: Token {{authToken}}
+Content-Type: application/json
+
+{
+    "name": "David Kim",
+    "profile": "Recently completed a coding bootcamp and transitioning from finance to software development.",
+    "linkedin_url": "https://linkedin.com/in/davidkim-dev",
+    "job_title": "Junior Developer",
+    "area": "SE_ASIA",
+    "country": "South Korea",
+    "availability_type": "ONSITE"
+}
+
+### 6 Months Later Update
+PATCH {{baseUrl}}/profile/{{profileUid}}/
+Authorization: Token {{authToken}}
+Content-Type: application/json
+
+{
+    "job_title": "Software Developer",
+    "profile": "Software developer with 6 months of professional experience and finance background. Specialized in Python and web development. Bringing unique analytical skills from previous finance career.",
+    "availability_type": "HYBRID"
+}
+
+### Account Deletion Workflow
+
+### Before Deletion - Final Profile Check
+GET {{baseUrl}}/profile/
+Authorization: Token {{authToken}}
+
+### Soft Delete Profile
+DELETE {{baseUrl}}/profile/{{profileUid}}/
+Authorization: Token {{authToken}}
+
+### Try to Access Deleted Profile (Should return 404 or empty)
+GET {{baseUrl}}/profile/
+Authorization: Token {{authToken}}

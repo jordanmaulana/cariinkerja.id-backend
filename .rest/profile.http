@@ -1,0 +1,222 @@
+### Variables
+@baseUrl = http://localhost:8000/api/v1
+@token = your_auth_token_here
+@profileUid = profile_uid_here
+
+### Get User Profile
+GET {{baseUrl}}/profile/
+Authorization: Bearer {{token}}
+
+### Create Profile
+POST {{baseUrl}}/profile/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "John Doe",
+    "profile": "Experienced software developer with expertise in Django and React. Passionate about building scalable web applications.",
+    "linkedin_url": "https://linkedin.com/in/johndoe",
+    "job_title": "Senior Software Engineer",
+    "area": "SE_ASIA",
+    "country": "Indonesia",
+    "availability_type": "REMOTE"
+}
+
+### Create Profile - Minimal Required Fields
+POST {{baseUrl}}/profile/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "Jane Smith",
+    "job_title": "Frontend Developer",
+    "area": "EU",
+    "availability_type": "HYBRID"
+}
+
+### Update Profile (Full Update)
+PUT {{baseUrl}}/profile/{{profileUid}}/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "John Doe Updated",
+    "profile": "Updated profile description with more details about my experience in full-stack development.",
+    "linkedin_url": "https://linkedin.com/in/johndoe-updated",
+    "job_title": "Lead Software Engineer",
+    "area": "APAC",
+    "country": "Singapore",
+    "availability_type": "HYBRID"
+}
+
+### Update Profile (Partial Update)
+PATCH {{baseUrl}}/profile/{{profileUid}}/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "job_title": "Principal Software Engineer",
+    "availability_type": "REMOTE"
+}
+
+### Update Profile - Job Title Only
+PATCH {{baseUrl}}/profile/{{profileUid}}/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "job_title": "CTO"
+}
+
+### Update Profile - LinkedIn URL
+PATCH {{baseUrl}}/profile/{{profileUid}}/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "linkedin_url": "https://linkedin.com/in/john-doe-cto"
+}
+
+### Update Profile - Area and Country
+PATCH {{baseUrl}}/profile/{{profileUid}}/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "area": "EMEA",
+    "country": "United Kingdom"
+}
+
+### Update Profile - Availability Type
+PATCH {{baseUrl}}/profile/{{profileUid}}/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "availability_type": "ONSITE"
+}
+
+### Delete Profile (Soft Delete)
+DELETE {{baseUrl}}/profile/{{profileUid}}/
+Authorization: Bearer {{token}}
+
+### Change Password
+POST {{baseUrl}}/profile/change-password/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "old_password": "currentpassword123",
+    "new_password": "newpassword456"
+}
+
+### Error Examples
+
+### Create Profile - Missing Required Fields
+POST {{baseUrl}}/profile/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "profile": "This should fail because name, job_title, and availability_type are missing"
+}
+
+### Create Profile - Invalid Area Choice
+POST {{baseUrl}}/profile/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "Test User",
+    "job_title": "Developer",
+    "area": "INVALID_AREA",
+    "availability_type": "REMOTE"
+}
+
+### Create Profile - Invalid Availability Type
+POST {{baseUrl}}/profile/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "Test User",
+    "job_title": "Developer",
+    "area": "OTHER",
+    "availability_type": "INVALID_TYPE"
+}
+
+### Update Non-existent Profile
+PUT {{baseUrl}}/profile/nonexistent-uid/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "This should return 404"
+}
+
+### Change Password - Wrong Old Password
+POST {{baseUrl}}/profile/change-password/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "old_password": "wrongpassword",
+    "new_password": "newpassword456"
+}
+
+### Change Password - Missing Fields
+POST {{baseUrl}}/profile/change-password/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "old_password": "currentpassword123"
+}
+
+### Unauthorized Access (No Token)
+GET {{baseUrl}}/profile/
+
+### Test Data Examples
+
+### Profile with All Optional Fields
+POST {{baseUrl}}/profile/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "Alice Johnson",
+    "profile": "Full-stack developer with 8+ years of experience in building enterprise applications. Specialized in Python, Django, JavaScript, and React. Currently leading a team of 5 developers and architecting microservices solutions.",
+    "linkedin_url": "https://linkedin.com/in/alice-johnson-dev",
+    "job_title": "Technical Lead",
+    "area": "SE_ASIA",
+    "country": "Malaysia",
+    "availability_type": "HYBRID"
+}
+
+### Profile for Remote Worker
+POST {{baseUrl}}/profile/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "Bob Wilson",
+    "profile": "Digital nomad and senior backend developer specializing in scalable API development and cloud architecture.",
+    "linkedin_url": "https://linkedin.com/in/bobwilson",
+    "job_title": "Senior Backend Developer",
+    "area": "EU",
+    "country": "Portugal",
+    "availability_type": "REMOTE"
+}
+
+### Profile for Onsite Worker
+POST {{baseUrl}}/profile/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "Carol Davis",
+    "job_title": "Project Manager",
+    "area": "EMEA",
+    "country": "Germany",
+    "availability_type": "ONSITE"
+}

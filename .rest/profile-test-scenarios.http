@@ -1,0 +1,302 @@
+### Profile API Test Scenarios
+### This file contains various test scenarios for comprehensive API testing
+
+@baseUrl = http://localhost:8000/api/v1
+@token = your_auth_token_here
+
+### Test Area Choices
+
+### Profile with SE_ASIA area
+POST {{baseUrl}}/profile/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "Southeast Asia Developer",
+    "job_title": "Software Engineer",
+    "area": "SE_ASIA",
+    "country": "Thailand",
+    "availability_type": "REMOTE"
+}
+
+### Profile with EMEA area
+POST {{baseUrl}}/profile/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "EMEA Developer",
+    "job_title": "DevOps Engineer",
+    "area": "EMEA",
+    "country": "South Africa",
+    "availability_type": "HYBRID"
+}
+
+### Profile with APAC area
+POST {{baseUrl}}/profile/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "APAC Developer",
+    "job_title": "Mobile Developer",
+    "area": "APAC",
+    "country": "Australia",
+    "availability_type": "ONSITE"
+}
+
+### Profile with EU area
+POST {{baseUrl}}/profile/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "EU Developer",
+    "job_title": "Data Scientist",
+    "area": "EU",
+    "country": "France",
+    "availability_type": "REMOTE"
+}
+
+### Profile with OTHER area
+POST {{baseUrl}}/profile/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "Other Region Developer",
+    "job_title": "AI Engineer",
+    "area": "OTHER",
+    "country": "Brazil",
+    "availability_type": "HYBRID"
+}
+
+### Test Availability Types
+
+### Remote Worker Profile
+POST {{baseUrl}}/profile/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "Remote Specialist",
+    "job_title": "Cloud Architect",
+    "area": "SE_ASIA",
+    "availability_type": "REMOTE"
+}
+
+### Onsite Worker Profile
+POST {{baseUrl}}/profile/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "Onsite Specialist",
+    "job_title": "Hardware Engineer",
+    "area": "EU",
+    "availability_type": "ONSITE"
+}
+
+### Hybrid Worker Profile
+POST {{baseUrl}}/profile/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "Hybrid Specialist",
+    "job_title": "Product Manager",
+    "area": "APAC",
+    "availability_type": "HYBRID"
+}
+
+### Test LinkedIn URL Formats
+
+### Profile with LinkedIn URL
+POST {{baseUrl}}/profile/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "LinkedIn User",
+    "job_title": "Marketing Manager",
+    "area": "OTHER",
+    "linkedin_url": "https://www.linkedin.com/in/marketing-manager-123",
+    "availability_type": "REMOTE"
+}
+
+### Profile with Custom LinkedIn URL
+POST {{baseUrl}}/profile/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "Custom LinkedIn",
+    "job_title": "Sales Director",
+    "area": "EMEA",
+    "linkedin_url": "https://linkedin.com/in/sales-director",
+    "availability_type": "HYBRID"
+}
+
+### Test Long Profile Descriptions
+
+### Profile with Long Description
+POST {{baseUrl}}/profile/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "Detailed Profile User",
+    "profile": "Experienced software engineer with over 10 years in the technology industry. Specialized in full-stack development using modern frameworks and technologies including React, Vue.js, Node.js, Python, Django, and FastAPI. Strong background in cloud computing with AWS and Azure, containerization with Docker and Kubernetes, and CI/CD pipeline implementation. Led multiple cross-functional teams and successfully delivered high-impact projects for Fortune 500 companies. Passionate about mentoring junior developers and contributing to open-source projects. Currently exploring machine learning and AI technologies to enhance web applications.",
+    "job_title": "Senior Full Stack Developer",
+    "area": "SE_ASIA",
+    "country": "Philippines",
+    "linkedin_url": "https://linkedin.com/in/detailed-profile-user",
+    "availability_type": "REMOTE"
+}
+
+### Test Various Job Titles
+
+### C-Level Executive
+POST {{baseUrl}}/profile/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "Executive Leader",
+    "job_title": "Chief Technology Officer",
+    "area": "EU",
+    "country": "Netherlands",
+    "availability_type": "HYBRID"
+}
+
+### Junior Level
+POST {{baseUrl}}/profile/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "Junior Developer",
+    "job_title": "Junior Software Developer",
+    "area": "OTHER",
+    "country": "Canada",
+    "availability_type": "REMOTE"
+}
+
+### Mid Level
+POST {{baseUrl}}/profile/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "Mid Level Dev",
+    "job_title": "Software Developer",
+    "area": "APAC",
+    "country": "Japan",
+    "availability_type": "ONSITE"
+}
+
+### Senior Level
+POST {{baseUrl}}/profile/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "Senior Expert",
+    "job_title": "Senior Software Architect",
+    "area": "EMEA",
+    "country": "UAE",
+    "availability_type": "HYBRID"
+}
+
+### Test Country Variations
+
+### Asian Countries
+POST {{baseUrl}}/profile/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "Asian Developer",
+    "job_title": "Backend Developer",
+    "area": "SE_ASIA",
+    "country": "Vietnam",
+    "availability_type": "REMOTE"
+}
+
+### European Countries
+POST {{baseUrl}}/profile/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "European Developer",
+    "job_title": "Frontend Developer",
+    "area": "EU",
+    "country": "Spain",
+    "availability_type": "HYBRID"
+}
+
+### African Countries
+POST {{baseUrl}}/profile/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "African Developer",
+    "job_title": "Mobile Developer",
+    "area": "EMEA",
+    "country": "Nigeria",
+    "availability_type": "REMOTE"
+}
+
+### Test Profile Without Optional Fields
+
+### Minimal Profile
+POST {{baseUrl}}/profile/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "Minimal User",
+    "job_title": "Developer",
+    "area": "OTHER",
+    "availability_type": "REMOTE"
+}
+
+### Profile Without Country
+POST {{baseUrl}}/profile/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "No Country User",
+    "job_title": "QA Engineer",
+    "area": "SE_ASIA",
+    "availability_type": "ONSITE"
+}
+
+### Profile Without LinkedIn
+POST {{baseUrl}}/profile/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "No LinkedIn User",
+    "job_title": "System Administrator",
+    "area": "EU",
+    "country": "Italy",
+    "availability_type": "HYBRID"
+}
+
+### Profile Without Description
+POST {{baseUrl}}/profile/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "No Description User",
+    "job_title": "Network Engineer",
+    "area": "APAC",
+    "country": "South Korea",
+    "availability_type": "ONSITE"
+}

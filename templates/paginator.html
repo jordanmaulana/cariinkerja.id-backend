@@ -1,0 +1,28 @@
+{% load query_params %}
+<div class="flex items-center justify-center mt-6 space-x-2 text-sm">
+    {% if page_obj.has_previous %}
+        <a href="?{% query_params request page=1 %}"
+           class="px-3 py-1 rounded border border-gray-300 hover:bg-gray-100">First</a>
+        <a href="?{% query_params request page=page_obj.previous_page_number %}"
+           class="px-3 py-1 rounded border border-gray-300 hover:bg-gray-100">Previous</a>
+    {% endif %}
+    {% for num in page_obj.paginator.page_range %}
+        {% if num == page_obj.number %}
+            <span class="px-3 py-1 rounded border text-white font-semibold bg-gray-800 font-bold">{{ num }}</span>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <a href="?{% query_params request page=num %}"
+               class="px-3 py-1 rounded border border-gray-300 hover:bg-gray-100">{{ num }}</a>
+        {% elif num == 1 or num == page_obj.paginator.num_pages %}
+            <a href="?{% query_params request page=num %}"
+               class="px-3 py-1 rounded border border-gray-300 hover:bg-gray-100">{{ num }}</a>
+        {% elif num == page_obj.number|add:'-3' or num == page_obj.number|add:'3' %}
+            <span class="px-2 text-gray-500">...</span>
+        {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+        <a href="?{% query_params request page=page_obj.next_page_number %}"
+           class="px-3 py-1 rounded border border-gray-300 hover:bg-gray-100">Next</a>
+        <a href="?{% query_params request page=page_obj.paginator.num_pages %}"
+           class="px-3 py-1 rounded border border-gray-300 hover:bg-gray-100">Last</a>
+    {% endif %}
+</div>

@@ -1,0 +1,39 @@
+{% extends 'dashboard_base.html' %}
+{% block content %}
+  <div class="mx-auto">
+    <h1 class="text-2xl font-bold mb-4">Profile Detail</h1>
+    <form method="POST">
+      {% csrf_token %}
+      <div class="mb-4">
+        <label for="name" class="block font-semibold mb-1">Name</label>
+        <input type="text"
+               name="name"
+               id="name"
+               value="{{ profile.name }}"
+               class="w-full border border-gray-300 rounded px-3 py-2"
+               required>
+      </div>
+      <div class="mb-4">
+        <label for="phone_number" class="block font-semibold mb-1">Phone number</label>
+        <input type="text"
+               name="phone_number"
+               id="phone_number"
+               value="{{ profile.phone_number }}"
+               class="w-full border border-gray-300 rounded px-3 py-2"
+               required>
+      </div>
+      <div class="mb-4">
+        <label for="address" class="block font-semibold mb-1">Address</label>
+        <textarea name="address"
+                  id="address"
+                  class="w-full border border-gray-300 rounded px-3 py-2">{{ profile.address }}</textarea>
+      </div>
+      <div class="mb-4">
+        <label class="block font-semibold mb-1">Registration Date:</label>
+        <p>{{ profile.created_on }}</p>
+      </div>
+      <button type="submit"
+              class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 cursor-pointer">Update</button>
+    </form>
+  </div>
+{% endblock %}

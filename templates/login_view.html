@@ -1,0 +1,44 @@
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Django Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'output.css' %}" />
+    {% block head %}{% endblock %}
+  </head>
+  <body>
+    <main class="flex h-screen overflow-hidden bg-soft">
+      <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md h-min m-auto my-auto">
+        <h2 class="text-2xl font-semibold text-center mb-6">Django Admin Login</h2>
+        {% if form.errors %}
+          <div class="bg-red-100 text-red-700 p-4 rounded mb-4">Your username and password didn't match. Please try again.</div>
+        {% endif %}
+        <form method="post" class="space-y-4">
+          {% csrf_token %}
+          <div>
+            <label for="id_username" class="block text-sm font-medium text-gray-700">Username</label>
+            <input type="text"
+                   name="username"
+                   id="id_username"
+                   autofocus
+                   class="mt-1 block w-full px-4 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 border-gray-300" />
+          </div>
+          <div>
+            <label for="id_password" class="block text-sm font-medium text-gray-700">Password</label>
+            <input type="password"
+                   name="password"
+                   id="id_password"
+                   class="mt-1 block w-full px-4 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 border-gray-300" />
+          </div>
+          <div>
+            <button type="submit"
+                    class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition bg-soft">
+              Log In
+            </button>
+          </div>
+        </form>
+      </div>
+    </main>
+  </body>
+</html>

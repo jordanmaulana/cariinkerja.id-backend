@@ -5,10 +5,25 @@ from apps.profiles.models import Profile
 
 class ProfileSerializer(serializers.ModelSerializer):
     email = serializers.CharField(source="actor.email", read_only=True)
+    username = serializers.CharField(source="actor.username", read_only=True)
 
     class Meta:
         model = Profile
-        fields = ["uid", "name", "phone_number", "address", "email"]
+        fields = [
+            "uid",
+            "name", 
+            "profile",
+            "linkedin_url",
+            "job_title",
+            "area",
+            "country",
+            "availability_type",
+            "created_on",
+            "updated_on",
+            "email",
+            "username"
+        ]
+        read_only_fields = ["uid", "created_on", "updated_on"]
 
 
 class ChangePasswordSerializer(serializers.Serializer):

@@ -35,16 +35,12 @@ class RegisterSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data) -> User:
-        name = validated_data.pop("name")
         email = validated_data.get("email")
 
         # Create user and use email as username
         user = User.objects.create_user(
             username=email, email=email, password=validated_data.get("password")
         )
-
-        # Create profile using BaseModel.actor as a link
-        Profile.objects.create(name=name, actor=user)
 
         return user
 

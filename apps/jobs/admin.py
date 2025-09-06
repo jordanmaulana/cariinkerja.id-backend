@@ -16,6 +16,7 @@ class JobsAdmin(admin.ModelAdmin):
         'employment_type',
         'work_location',
         'job_title_category',
+        'posted_on',
         'created_on',
         'updated_on',
         'actor',
@@ -25,6 +26,7 @@ class JobsAdmin(admin.ModelAdmin):
         'work_location',
         'experience_level',
         'job_title_category',
+        'posted_on',
         'created_on',
         'updated_on',
     ]

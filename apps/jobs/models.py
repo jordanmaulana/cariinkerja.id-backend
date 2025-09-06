@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 from core.models import BaseModel
 from .consts import EMPLOYMENT_TYPE_CHOICES, WORK_LOCATION_CHOICES
@@ -24,6 +25,7 @@ class Jobs(BaseModel):
         default="remote",
     )
     job_title_category = models.CharField(max_length=255, default="other")
+    posted_on = models.DateTimeField(default=timezone.now)
 
 class JobAssessment(BaseModel):
     job = models.ForeignKey(Jobs, on_delete=models.CASCADE)

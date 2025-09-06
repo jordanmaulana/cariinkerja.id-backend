@@ -7,6 +7,7 @@ class JobsAdmin(admin.ModelAdmin):
     list_display = [
         'uid',
         'title',
+        'company_name',
         'link',
         'experience_level',
         'location',

@@ -28,6 +28,7 @@ class Jobs(BaseModel):
     job_title_category = models.CharField(max_length=255, default="other")
     posted_on = models.DateTimeField(default=timezone.now)
     requirements = ArrayField(models.CharField(max_length=300), size=20, null=True, blank=True, default=list)
+    company_name = models.CharField(max_length=255, null=True, blank=True)
 
 class JobAssessment(BaseModel):
     job = models.ForeignKey(Jobs, on_delete=models.CASCADE)

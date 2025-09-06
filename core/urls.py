@@ -68,6 +68,7 @@ urlpatterns = [
         name="password_reset_done",
     ),
     path("profiles/", include("apps.profiles.urls")),
+    path("jobs/", include("apps.jobs.urls")),
     path("dashboard/", DashboardView.as_view(), name="dashboard"),
 ]
 

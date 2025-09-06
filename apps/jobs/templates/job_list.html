@@ -1,0 +1,71 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}Job Listings{% endblock title %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">Job Listings</h1>
+    {% for job in jobs %}
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="text-2xl font-bold text-gray-800 mb-3">{{ job.title }}</div>
+        
+        <div class="flex flex-wrap gap-3 mb-4">
+            {% if job.location %}
+            <span class="bg-gray-200 px-3 py-1 rounded-md text-sm">📍 {{ job.location }}</span>
+            {% endif %}
+            <span class="bg-gray-200 px-3 py-1 rounded-md text-sm">💼 {{ job.get_employment_type_display }}</span>
+            <span class="bg-gray-200 px-3 py-1 rounded-md text-sm">🏠 {{ job.get_work_location_display }}</span>
+            {% if job.experience_level %}
+            <span class="bg-gray-200 px-3 py-1 rounded-md text-sm">📊 {{ job.experience_level }}</span>
+            {% endif %}
+            <span class="bg-gray-200 px-3 py-1 rounded-md text-sm">📅 {{ job.posted_on|date:"M d, Y" }}</span>
+        </div>
+        
+        <div class="mb-4 leading-relaxed text-gray-700">
+            {{ job.description|truncatewords:50 }}
+        </div>
+        
+        {% if job.hard_skills %}
+        <div class="mb-4">
+            <div class="font-semibold mb-2 text-gray-800">Hard Skills:</div>
+            <div class="flex flex-wrap gap-2">
+                {% for skill in job.hard_skills %}
+                <span class="bg-blue-500 text-white px-2 py-1 rounded text-xs">{{ skill }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        
+        {% if job.soft_skills %}
+        <div class="mb-4">
+            <div class="font-semibold mb-2 text-gray-800">Soft Skills:</div>
+            <div class="flex flex-wrap gap-2">
+                {% for skill in job.soft_skills %}
+                <span class="bg-green-500 text-white px-2 py-1 rounded text-xs">{{ skill }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        
+        <a href="{{ job.link }}" target="_blank" class="inline-block bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded transition-colors mt-3">View Job Details</a>
+    </div>
+    {% empty %}
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <p class="text-gray-600">No jobs available at the moment.</p>
+    </div>
+    {% endfor %}
+    {% if is_paginated %}
+    <div class="flex justify-center items-center space-x-2 mt-8">
+        {% if page_obj.has_previous %}
+        <a href="?page=1" class="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">« First</a>
+        <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">‹ Previous</a>
+        {% endif %}
+        <span class="px-4 py-2 bg-gray-200 rounded font-medium">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">Next ›</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}" class="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">Last »</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock content %}

@@ -7,19 +7,13 @@ class JobsAdmin(admin.ModelAdmin):
     list_display = [
         'uid',
         'title',
-        'description',
         'link',
-        'hard_skills',
-        'soft_skills',
         'experience_level',
         'location',
         'employment_type',
         'work_location',
         'job_title_category',
         'posted_on',
-        'created_on',
-        'updated_on',
-        'actor',
     ]
     list_filter = [
         'employment_type',
@@ -27,8 +21,6 @@ class JobsAdmin(admin.ModelAdmin):
         'experience_level',
         'job_title_category',
         'posted_on',
-        'created_on',
-        'updated_on',
     ]
     search_fields = [
         'title',

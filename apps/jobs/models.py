@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.postgres.fields import ArrayField
 
 from core.models import BaseModel
 from .consts import EMPLOYMENT_TYPE_CHOICES, WORK_LOCATION_CHOICES
@@ -10,8 +11,8 @@ class Jobs(BaseModel):
     title = models.CharField(max_length=255)
     description = models.TextField()
     link = models.URLField(unique=True)
-    hard_skills = models.TextField(null=True, blank=True)
-    soft_skills = models.TextField(null=True, blank=True)
+    hard_skills = ArrayField(models.CharField(max_length=100), size=20, null=True, blank=True, default=list)
+    soft_skills = ArrayField(models.CharField(max_length=100), size=20, null=True, blank=True, default=list)
     experience_level = models.CharField(max_length=255, null=True, blank=True)
     location = models.CharField(max_length=255, null=True, blank=True)
     employment_type = models.CharField(
@@ -26,11 +27,13 @@ class Jobs(BaseModel):
     )
     job_title_category = models.CharField(max_length=255, default="other")
     posted_on = models.DateTimeField(default=timezone.now)
+    requirements = ArrayField(models.CharField(max_length=300), size=20, null=True, blank=True, default=list)
 
 class JobAssessment(BaseModel):
     job = models.ForeignKey(Jobs, on_delete=models.CASCADE)
     profile = models.ForeignKey("profiles.Profile", on_delete=models.CASCADE)
     summary = models.TextField()
-    hard_skill_gap = models.TextField()
-    soft_skill_gap = models.TextField()
+    hard_skill_gap = ArrayField(models.CharField(max_length=100), size=20, null=True, blank=True, default=list)
+    soft_skill_gap = ArrayField(models.CharField(max_length=100), size=20, null=True, blank=True, default=list)
+    score = models.IntegerField(default=0)
     

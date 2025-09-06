@@ -1,6 +1,7 @@
 from django.db import models
 
 from core.models import BaseModel
+from .consts import EMPLOYMENT_TYPE_CHOICES, WORK_LOCATION_CHOICES
 
 
 # Create your models here.
@@ -12,27 +13,17 @@ class Jobs(BaseModel):
     soft_skills = models.TextField(null=True, blank=True)
     experience_level = models.CharField(max_length=255, null=True, blank=True)
     location = models.CharField(max_length=255, null=True, blank=True)
-    employment_type = (
-        models.CharField(
-            max_length=255,
-            choices=[
-                ("full_time", "Full Time"),
-                ("part_time", "Part Time"),
-                ("contract", "Contract"),
-                ("internship", "Internship"),
-            ],
-        ),
+    employment_type = models.CharField(
+        max_length=255,
+        choices=EMPLOYMENT_TYPE_CHOICES,
+        default="full_time",
     )
-    work_location = (
-        models.CharField(
-            max_length=255,
-            choices=[
-                ("remote", "Remote"),
-                ("onsite", "Onsite"),
-                ("hybrid", "Hybrid"),
-            ],
-        ),
+    work_location = models.CharField(
+        max_length=255,
+        choices=WORK_LOCATION_CHOICES,
+        default="remote",
     )
+    job_title_category = models.CharField(max_length=255, default="other")
 
 class JobAssessment(BaseModel):
     job = models.ForeignKey(Jobs, on_delete=models.CASCADE)

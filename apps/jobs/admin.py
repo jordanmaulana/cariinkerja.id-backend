@@ -15,6 +15,7 @@ class JobsAdmin(admin.ModelAdmin):
         'location',
         'employment_type',
         'work_location',
+        'job_title_category',
         'created_on',
         'updated_on',
         'actor',
@@ -23,6 +24,7 @@ class JobsAdmin(admin.ModelAdmin):
         'employment_type',
         'work_location',
         'experience_level',
+        'job_title_category',
         'created_on',
         'updated_on',
     ]
@@ -32,6 +34,7 @@ class JobsAdmin(admin.ModelAdmin):
         'location',
         'hard_skills',
         'soft_skills',
+        'job_title_category',
     ]
     readonly_fields = ['uid', 'created_on', 'updated_on']
 

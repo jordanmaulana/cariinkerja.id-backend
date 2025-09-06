@@ -1,71 +1,155 @@
 {% extends "dashboard_base.html" %}
-
-{% block title %}Job Listings{% endblock title %}
-
+{% block title %}
+  Job Listings
+{% endblock title %}
 {% block content %}
-<div class="max-w-6xl mx-auto">
-    <h1 class="text-3xl font-bold text-gray-800 mb-6">Job Listings</h1>
-    {% for job in jobs %}
+  <div class="max-w-6xl mx-auto">
+    <!-- Filter Form -->
     <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+      <h2 class="text-xl font-bold text-gray-800 mb-4">Filter Jobs</h2>
+      <form method="get"
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <!-- Search -->
+        <div>
+          <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Search</label>
+          <input type="text"
+                 id="search"
+                 name="search"
+                 value="{{ current_filters.search }}"
+                 placeholder="Search jobs..."
+                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <!-- Employment Type -->
+        <div>
+          <label for="employment_type"
+                 class="block text-sm font-medium text-gray-700 mb-1">Employment Type</label>
+          <select id="employment_type"
+                  name="employment_type"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="">All Types</option>
+            {% for value, label in employment_type_choices %}
+              <option value="{{ value }}"
+                      {% if current_filters.employment_type == value %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <!-- Work Location -->
+        <div>
+          <label for="work_location"
+                 class="block text-sm font-medium text-gray-700 mb-1">Work Location</label>
+          <select id="work_location"
+                  name="work_location"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="">All Locations</option>
+            {% for value, label in work_location_choices %}
+              <option value="{{ value }}"
+                      {% if current_filters.work_location == value %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <!-- Experience Level -->
+        <div>
+          <label for="experience_level"
+                 class="block text-sm font-medium text-gray-700 mb-1">Experience Level</label>
+          <input type="text"
+                 id="experience_level"
+                 name="experience_level"
+                 value="{{ current_filters.experience_level }}"
+                 placeholder="e.g. Senior, Junior"
+                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <!-- Job Category -->
+        <div>
+          <label for="job_title_category"
+                 class="block text-sm font-medium text-gray-700 mb-1">Job Category</label>
+          <input type="text"
+                 id="job_title_category"
+                 name="job_title_category"
+                 value="{{ current_filters.job_title_category }}"
+                 placeholder="e.g. Software Engineer"
+                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <!-- Posted Date -->
+        <div>
+          <label for="posted_on" class="block text-sm font-medium text-gray-700 mb-1">Posted</label>
+          <select id="posted_on"
+                  name="posted_on"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="">Any time</option>
+            <option value="today"
+                    {% if current_filters.posted_on == 'today' %}selected{% endif %}>Today</option>
+            <option value="week"
+                    {% if current_filters.posted_on == 'week' %}selected{% endif %}>Past week</option>
+            <option value="month"
+                    {% if current_filters.posted_on == 'month' %}selected{% endif %}>Past month</option>
+          </select>
+        </div>
+        <!-- Filter Buttons -->
+        <div class="flex items-end space-x-2">
+          <button type="submit"
+                  class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition-colors">
+            Apply Filters
+          </button>
+          <a href="{% url 'job_list' %}"
+             class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md transition-colors">Clear</a>
+        </div>
+      </form>
+    </div>
+    <!-- Results Header -->
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-3xl font-bold text-gray-800">Job Listings</h1>
+      <div class="text-sm text-gray-600">
+        {% if is_paginated %}
+          Showing {{ page_obj.start_index }}-{{ page_obj.end_index }} of {{ paginator.count }} jobs
+        {% else %}
+          {{ jobs|length }} job{{ jobs|length|pluralize }} found
+        {% endif %}
+      </div>
+    </div>
+    {% for job in jobs %}
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
         <div class="text-2xl font-bold text-gray-800 mb-3">{{ job.title }}</div>
-        
         <div class="flex flex-wrap gap-3 mb-4">
-            {% if job.location %}
-            <span class="bg-gray-200 px-3 py-1 rounded-md text-sm">📍 {{ job.location }}</span>
-            {% endif %}
-            <span class="bg-gray-200 px-3 py-1 rounded-md text-sm">💼 {{ job.get_employment_type_display }}</span>
-            <span class="bg-gray-200 px-3 py-1 rounded-md text-sm">🏠 {{ job.get_work_location_display }}</span>
-            {% if job.experience_level %}
+          {% if job.location %}<span class="bg-gray-200 px-3 py-1 rounded-md text-sm">📍 {{ job.location }}</span>{% endif %}
+          <span class="bg-gray-200 px-3 py-1 rounded-md text-sm">💼 {{ job.get_employment_type_display }}</span>
+          <span class="bg-gray-200 px-3 py-1 rounded-md text-sm">🏠 {{ job.get_work_location_display }}</span>
+          {% if job.experience_level %}
             <span class="bg-gray-200 px-3 py-1 rounded-md text-sm">📊 {{ job.experience_level }}</span>
-            {% endif %}
-            <span class="bg-gray-200 px-3 py-1 rounded-md text-sm">📅 {{ job.posted_on|date:"M d, Y" }}</span>
+          {% endif %}
+          <span class="bg-gray-200 px-3 py-1 rounded-md text-sm">📅 {{ job.posted_on|date:"M d, Y" }}</span>
         </div>
-        
-        <div class="mb-4 leading-relaxed text-gray-700">
-            {{ job.description|truncatewords:50 }}
-        </div>
-        
+        <div class="mb-4 leading-relaxed text-gray-700">{{ job.description|truncatewords:50 }}</div>
         {% if job.hard_skills %}
-        <div class="mb-4">
+          <div class="mb-4">
             <div class="font-semibold mb-2 text-gray-800">Hard Skills:</div>
             <div class="flex flex-wrap gap-2">
-                {% for skill in job.hard_skills %}
+              {% for skill in job.hard_skills %}
                 <span class="bg-blue-500 text-white px-2 py-1 rounded text-xs">{{ skill }}</span>
-                {% endfor %}
+              {% endfor %}
             </div>
-        </div>
+          </div>
         {% endif %}
-        
         {% if job.soft_skills %}
-        <div class="mb-4">
+          <div class="mb-4">
             <div class="font-semibold mb-2 text-gray-800">Soft Skills:</div>
             <div class="flex flex-wrap gap-2">
-                {% for skill in job.soft_skills %}
+              {% for skill in job.soft_skills %}
                 <span class="bg-green-500 text-white px-2 py-1 rounded text-xs">{{ skill }}</span>
-                {% endfor %}
+              {% endfor %}
             </div>
-        </div>
+          </div>
         {% endif %}
-        
-        <a href="{{ job.link }}" target="_blank" class="inline-block bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded transition-colors mt-3">View Job Details</a>
-    </div>
+        <a href="{{ job.link }}"
+           target="_blank"
+           class="inline-block bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded transition-colors mt-3">View Job Details</a>
+      </div>
     {% empty %}
-    <div class="bg-white rounded-lg shadow-md p-6">
+      <div class="bg-white rounded-lg shadow-md p-6">
         <p class="text-gray-600">No jobs available at the moment.</p>
-    </div>
+      </div>
     {% endfor %}
     {% if is_paginated %}
-    <div class="flex justify-center items-center space-x-2 mt-8">
-        {% if page_obj.has_previous %}
-        <a href="?page=1" class="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">« First</a>
-        <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">‹ Previous</a>
-        {% endif %}
-        <span class="px-4 py-2 bg-gray-200 rounded font-medium">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
-        {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">Next ›</a>
-        <a href="?page={{ page_obj.paginator.num_pages }}" class="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">Last »</a>
-        {% endif %}
-    </div>
+      {% include "paginator.html" %}
     {% endif %}
-</div>
+  </div>
 {% endblock content %}

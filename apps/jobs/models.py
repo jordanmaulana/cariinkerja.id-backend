@@ -11,8 +11,8 @@ class Jobs(BaseModel):
     title = models.CharField(max_length=255)
     description = models.TextField()
     link = models.URLField(unique=True)
-    hard_skills = ArrayField(models.CharField(max_length=100), size=20, null=True, blank=True, default=list)
-    soft_skills = ArrayField(models.CharField(max_length=100), size=20, null=True, blank=True, default=list)
+    hard_skills = ArrayField(models.CharField(max_length=255), size=20, null=True, blank=True, default=list)
+    soft_skills = ArrayField(models.CharField(max_length=255), size=20, null=True, blank=True, default=list)
     experience_level = models.CharField(max_length=255, null=True, blank=True)
     location = models.CharField(max_length=255, null=True, blank=True)
     employment_type = models.CharField(
@@ -33,7 +33,7 @@ class JobAssessment(BaseModel):
     job = models.ForeignKey(Jobs, on_delete=models.CASCADE)
     profile = models.ForeignKey("profiles.Profile", on_delete=models.CASCADE)
     summary = models.TextField()
-    hard_skill_gap = ArrayField(models.CharField(max_length=100), size=20, null=True, blank=True, default=list)
-    soft_skill_gap = ArrayField(models.CharField(max_length=100), size=20, null=True, blank=True, default=list)
+    hard_skill_gap = ArrayField(models.CharField(max_length=255), size=20, null=True, blank=True, default=list)
+    soft_skill_gap = ArrayField(models.CharField(max_length=255), size=20, null=True, blank=True, default=list)
     score = models.IntegerField(default=0)
     

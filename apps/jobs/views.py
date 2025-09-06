@@ -1,4 +1,4 @@
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.db.models import Q
 from datetime import datetime, timedelta
 from .models import Jobs
@@ -71,4 +71,18 @@ class JobListView(ListView):
             'posted_on': self.request.GET.get('posted_on', ''),
             'search': self.request.GET.get('search', ''),
         }
+        return context
+
+
+class JobDetailView(DetailView):
+    model = Jobs
+    template_name = 'job_detail.html'
+    context_object_name = 'job'
+    slug_field = 'uid'
+    slug_url_kwarg = 'uid'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Preserve query parameters for back button
+        context['back_url_params'] = self.request.GET.urlencode()
         return context

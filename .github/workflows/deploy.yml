@@ -1,0 +1,36 @@
+name: Deploy to jordanserver
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Tailscale
+        uses: tailscale/github-action@v2
+        with:
+          authkey: ${{ secrets.TAILSCALE_AUTH_KEY }}
+
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          name: id_rsa
+          known_hosts: "[jordanserver]:22"
+
+      - name: Deploy to jordanserver
+        run: |
+          ssh -o StrictHostKeyChecking=no jordan@jordanserver << 'EOF'
+            cd /home/jordan/kakjoeapps/cariinkerja.id-backend
+            git pull origin main
+            docker-compose down
+            docker-compose build --no-cache
+            docker-compose up -d
+            docker system prune -f
+          EOF

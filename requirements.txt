@@ -43,6 +43,7 @@ flexcache==0.3
 flexparser==0.4
 fsspec==2025.5.1
 greenlet==3.2.3
+gunicorn==23.0.0
 idna==3.10
 ijson==3.4.0
 inflection==0.5.1

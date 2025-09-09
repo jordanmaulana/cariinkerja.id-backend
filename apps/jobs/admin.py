@@ -6,6 +6,8 @@ from .models import Jobs, JobAssessment
 class JobsAdmin(admin.ModelAdmin):
     list_display = [
         'uid',
+        'source_platform',
+        'job_title_category',
         'title',
         'company_name',
         'link',
@@ -13,10 +15,10 @@ class JobsAdmin(admin.ModelAdmin):
         'location',
         'employment_type',
         'work_location',
-        'job_title_category',
         'posted_on',
     ]
     list_filter = [
+        'source_platform',
         'employment_type',
         'work_location',
         'experience_level',

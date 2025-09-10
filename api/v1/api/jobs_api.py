@@ -7,7 +7,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 
-from api.v1.serializers.jobs_serializer import JobsSerializer, JobAssessmentSerializer
+from api.v1.serializers.jobs_serializer import JobsListSerializer, JobsDetailSerializer, JobAssessmentSerializer
 from apps.jobs.models import Jobs, JobAssessment
 from apps.jobs.consts import EMPLOYMENT_TYPE_CHOICES, WORK_LOCATION_CHOICES
 
@@ -92,10 +92,17 @@ class JobsFilter(filters.FilterSet):
 
 class JobsAPI(viewsets.ModelViewSet):
     queryset = Jobs.objects.all().order_by('-created_on')
-    serializer_class = JobsSerializer
     pagination_class = JobsPagination
     filterset_class = JobsFilter
     permission_classes = []
+    
+    def get_serializer_class(self):
+        """
+        Return different serializers for list and detail operations
+        """
+        if self.action == 'list':
+            return JobsListSerializer
+        return JobsDetailSerializer
     
     def get_queryset(self):
         """Return jobs ordered by creation date (newest first)"""

@@ -2,7 +2,31 @@ from rest_framework import serializers
 from apps.jobs.models import Jobs, JobAssessment
 
 
-class JobsSerializer(serializers.ModelSerializer):
+class JobsListSerializer(serializers.ModelSerializer):
+    """
+    Lightweight serializer for job list operations
+    """
+    class Meta:
+        model = Jobs
+        fields = [
+            'uid',
+            'title',
+            'company_name',
+            'location',
+            'employment_type',
+            'work_location',
+            'job_title_category',
+            'posted_on',
+            'source_platform',
+            'created_on',
+        ]
+        read_only_fields = ['uid', 'created_on']
+
+
+class JobsDetailSerializer(serializers.ModelSerializer):
+    """
+    Comprehensive serializer for job detail operations
+    """
     class Meta:
         model = Jobs
         fields = [
@@ -27,8 +51,12 @@ class JobsSerializer(serializers.ModelSerializer):
         read_only_fields = ['uid', 'created_on', 'updated_on']
 
 
+# Alias for backward compatibility
+JobsSerializer = JobsDetailSerializer
+
+
 class JobAssessmentSerializer(serializers.ModelSerializer):
-    job = JobsSerializer(read_only=True)
+    job = JobsDetailSerializer(read_only=True)
     job_uid = serializers.CharField(write_only=True)
     
     class Meta:

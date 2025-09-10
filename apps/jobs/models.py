@@ -42,6 +42,9 @@ class Jobs(BaseModel):
         default="weworkremotely.com",
     )
 
+    def __str__(self):
+        return self.title
+
 
 class JobAssessment(BaseModel):
     job = models.ForeignKey(Jobs, on_delete=models.CASCADE)

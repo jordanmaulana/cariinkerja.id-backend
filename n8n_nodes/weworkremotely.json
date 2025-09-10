@@ -1,0 +1,893 @@
+{
+    "name": "Wework Feed",
+    "nodes": [
+        {
+            "parameters": {
+                "rule": {
+                    "interval": [
+                        {
+                            "triggerAtHour": 7
+                        }
+                    ]
+                }
+            },
+            "type": "n8n-nodes-base.scheduleTrigger",
+            "typeVersion": 1.2,
+            "position": [
+                -848,
+                736
+            ],
+            "id": "1b39b0d6-9e41-4121-845b-11d22807ed50",
+            "name": "Schedule Trigger"
+        },
+        {
+            "parameters": {
+                "url": "https://weworkremotely.com/categories/remote-customer-support-jobs.rss",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.rssFeedRead",
+            "typeVersion": 1.2,
+            "position": [
+                -592,
+                416
+            ],
+            "id": "cc82156c-3d63-48f5-8ba5-ca144a36c78c",
+            "name": "Customer support",
+            "executeOnce": false
+        },
+        {
+            "parameters": {
+                "url": "https://weworkremotely.com/categories/remote-product-jobs.rss",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.rssFeedRead",
+            "typeVersion": 1.2,
+            "position": [
+                -448,
+                480
+            ],
+            "id": "fc68501d-3cc7-4218-ab7a-a4162e65888c",
+            "name": "Product",
+            "executeOnce": false
+        },
+        {
+            "parameters": {
+                "url": "https://weworkremotely.com/categories/remote-back-end-programming-jobs.rss",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.rssFeedRead",
+            "typeVersion": 1.2,
+            "position": [
+                -592,
+                672
+            ],
+            "id": "bde369df-c24d-4aa0-9f4c-614bb986e90e",
+            "name": "Backend programmer",
+            "executeOnce": false
+        },
+        {
+            "parameters": {
+                "url": "https://weworkremotely.com/categories/remote-front-end-programming-jobs.rss",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.rssFeedRead",
+            "typeVersion": 1.2,
+            "position": [
+                -448,
+                608
+            ],
+            "id": "07539e2f-7603-4136-b225-4fb94ac59963",
+            "name": "Frontend programmer",
+            "executeOnce": false
+        },
+        {
+            "parameters": {
+                "url": "https://weworkremotely.com/categories/all-other-remote-jobs.rss",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.rssFeedRead",
+            "typeVersion": 1.2,
+            "position": [
+                -592,
+                1056
+            ],
+            "id": "e7212755-1798-4c6e-a2f8-42e29fcd0183",
+            "name": "Others",
+            "executeOnce": false
+        },
+        {
+            "parameters": {
+                "url": "https://weworkremotely.com/categories/remote-design-jobs.rss",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.rssFeedRead",
+            "typeVersion": 1.2,
+            "position": [
+                -592,
+                928
+            ],
+            "id": "1aad8a08-72e4-4fed-b62a-60d7672ed38a",
+            "name": "Design",
+            "executeOnce": false
+        },
+        {
+            "parameters": {
+                "url": "https://weworkremotely.com/categories/remote-management-and-finance-jobs.rss",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.rssFeedRead",
+            "typeVersion": 1.2,
+            "position": [
+                -448,
+                864
+            ],
+            "id": "728f67d2-4ee8-4357-8f42-4f1343d52762",
+            "name": "Management & Finance",
+            "executeOnce": false
+        },
+        {
+            "parameters": {
+                "url": "https://weworkremotely.com/categories/remote-full-stack-programming-jobs.rss",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.rssFeedRead",
+            "typeVersion": 1.2,
+            "position": [
+                -592,
+                544
+            ],
+            "id": "db866052-ac6d-44c7-a0cc-4193392ee9c1",
+            "name": "Full Stack",
+            "executeOnce": false
+        },
+        {
+            "parameters": {
+                "url": "https://weworkremotely.com/categories/remote-programming-jobs.rss",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.rssFeedRead",
+            "typeVersion": 1.2,
+            "position": [
+                -448,
+                736
+            ],
+            "id": "a202c588-e052-4a79-b845-77f3ee6bc6a0",
+            "name": "All Programming",
+            "executeOnce": false
+        },
+        {
+            "parameters": {
+                "url": "https://weworkremotely.com/categories/remote-sales-and-marketing-jobs.rss",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.rssFeedRead",
+            "typeVersion": 1.2,
+            "position": [
+                -592,
+                800
+            ],
+            "id": "8fa4b59e-5447-43af-8d7c-06322a47b6e3",
+            "name": "Sales and Marketing",
+            "executeOnce": false
+        },
+        {
+            "parameters": {
+                "url": "https://weworkremotely.com/categories/remote-devops-sysadmin-jobs.rss",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.rssFeedRead",
+            "typeVersion": 1.2,
+            "position": [
+                -448,
+                992
+            ],
+            "id": "7de2517d-d536-4a4e-9acc-27d2c1151b9c",
+            "name": "Devops and Sysadmin",
+            "executeOnce": false
+        },
+        {
+            "parameters": {
+                "operation": "select",
+                "schema": {
+                    "__rl": true,
+                    "mode": "list",
+                    "value": "public"
+                },
+                "table": {
+                    "__rl": true,
+                    "value": "jobs_jobs",
+                    "mode": "list",
+                    "cachedResultName": "jobs_jobs"
+                },
+                "returnAll": true,
+                "where": {
+                    "values": [
+                        {
+                            "column": "link",
+                            "value": "={{ $json.link }}"
+                        }
+                    ]
+                },
+                "options": {
+                    "queryBatching": "single"
+                }
+            },
+            "type": "n8n-nodes-base.postgres",
+            "typeVersion": 2.6,
+            "position": [
+                160,
+                400
+            ],
+            "id": "b39edb77-9ea1-45c4-9bcd-c8fc26f54f50",
+            "name": "Check if link already saved",
+            "alwaysOutputData": true,
+            "notesInFlow": true,
+            "credentials": {
+                "postgres": {
+                    "id": "NPrKnZroLd8ehTQS",
+                    "name": "cariinkerja"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "action": "generate",
+                "encodingType": "hex"
+            },
+            "type": "n8n-nodes-base.crypto",
+            "typeVersion": 1,
+            "position": [
+                272,
+                736
+            ],
+            "id": "2b964aca-8482-4e77-b0d0-ad04f0173ba1",
+            "name": "Crypto"
+        },
+        {
+            "parameters": {},
+            "type": "n8n-nodes-base.noOp",
+            "typeVersion": 1,
+            "position": [
+                -32,
+                512
+            ],
+            "id": "7bd1cff0-26a9-4716-9578-d869eec89b22",
+            "name": "No Operation, do nothing"
+        },
+        {
+            "parameters": {
+                "mergeByFields": {
+                    "values": [
+                        {
+                            "field1": "link",
+                            "field2": "link"
+                        }
+                    ]
+                },
+                "resolve": "preferInput2",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.compareDatasets",
+            "typeVersion": 2.3,
+            "position": [
+                336,
+                464
+            ],
+            "id": "1ae7e3c1-d5a7-4e8d-8c3d-16d4c1cff542",
+            "name": "Compare Datasets",
+            "executeOnce": false
+        },
+        {
+            "parameters": {
+                "schema": {
+                    "__rl": true,
+                    "mode": "list",
+                    "value": "public"
+                },
+                "table": {
+                    "__rl": true,
+                    "value": "jobs_jobs",
+                    "mode": "list",
+                    "cachedResultName": "jobs_jobs"
+                },
+                "columns": {
+                    "mappingMode": "defineBelow",
+                    "value": {
+                        "uid": "={{ $json.data }}",
+                        "created_on": "={{ $now }}",
+                        "updated_on": "={{ $now }}",
+                        "title": "={{ $('No Operation, do nothing').item.json.title }}",
+                        "description": "={{ $('No Operation, do nothing').item.json.contentSnippet }}",
+                        "link": "={{ $('No Operation, do nothing').item.json.link }}",
+                        "hard_skills": "={{ $json.output.hard_skills??[] }}",
+                        "soft_skills": "={{ $json.output.soft_skills??[] }}",
+                        "experience_level": "={{ $json.output.experience_level??[] }}",
+                        "location": "={{ $json.output.location }}",
+                        "employment_type": "={{ $json.output.employment_type??\"full_time\" }}",
+                        "job_title_category": "={{ $('No Operation, do nothing').item.json.categories[0] }}",
+                        "work_location": "={{ $json.output.work_location??\"remote\" }}",
+                        "posted_on": "={{ $('No Operation, do nothing').item.json.pubDate }}",
+                        "requirements": "={{ $json.output.requirements }}",
+                        "company_name": "={{ $json.output.company_name }}",
+                        "source_platform": "weworkremotely.com"
+                    },
+                    "matchingColumns": [
+                        "id"
+                    ],
+                    "schema": [
+                        {
+                            "id": "id",
+                            "displayName": "id",
+                            "required": false,
+                            "defaultMatch": true,
+                            "display": true,
+                            "type": "number",
+                            "canBeUsedToMatch": true,
+                            "removed": true
+                        },
+                        {
+                            "id": "uid",
+                            "displayName": "uid",
+                            "required": true,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "string",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "created_on",
+                            "displayName": "created_on",
+                            "required": true,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "dateTime",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "updated_on",
+                            "displayName": "updated_on",
+                            "required": true,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "dateTime",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "title",
+                            "displayName": "title",
+                            "required": true,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "string",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "description",
+                            "displayName": "description",
+                            "required": true,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "string",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "link",
+                            "displayName": "link",
+                            "required": true,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "string",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "hard_skills",
+                            "displayName": "hard_skills",
+                            "required": false,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "array",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "soft_skills",
+                            "displayName": "soft_skills",
+                            "required": false,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "array",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "experience_level",
+                            "displayName": "experience_level",
+                            "required": false,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "string",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "location",
+                            "displayName": "location",
+                            "required": false,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "string",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "actor_id",
+                            "displayName": "actor_id",
+                            "required": false,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "number",
+                            "canBeUsedToMatch": true,
+                            "removed": true
+                        },
+                        {
+                            "id": "employment_type",
+                            "displayName": "employment_type",
+                            "required": true,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "string",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "job_title_category",
+                            "displayName": "job_title_category",
+                            "required": true,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "string",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "work_location",
+                            "displayName": "work_location",
+                            "required": true,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "string",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "posted_on",
+                            "displayName": "posted_on",
+                            "required": true,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "dateTime",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "requirements",
+                            "displayName": "requirements",
+                            "required": false,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "array",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "company_name",
+                            "displayName": "company_name",
+                            "required": false,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "string",
+                            "canBeUsedToMatch": true,
+                            "removed": false
+                        },
+                        {
+                            "id": "source_platform",
+                            "displayName": "source_platform",
+                            "required": true,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "string",
+                            "canBeUsedToMatch": true,
+                            "removed": false
+                        }
+                    ],
+                    "attemptToConvertTypes": false,
+                    "convertFieldsToString": false
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.postgres",
+            "typeVersion": 2.6,
+            "position": [
+                416,
+                736
+            ],
+            "id": "d597a672-e01a-4f65-bcb1-0d54629a7b0b",
+            "name": "Insert rows in a table",
+            "credentials": {
+                "postgres": {
+                    "id": "NPrKnZroLd8ehTQS",
+                    "name": "cariinkerja"
+                }
+            },
+            "onError": "continueRegularOutput"
+        },
+        {
+            "parameters": {
+                "conditions": {
+                    "options": {
+                        "caseSensitive": true,
+                        "leftValue": "",
+                        "typeValidation": "strict",
+                        "version": 2
+                    },
+                    "conditions": [
+                        {
+                            "id": "e9008dad-3c1c-44b7-969b-f688eb4f7542",
+                            "leftValue": "={{ $json.pubDate }}",
+                            "rightValue": "={{ $now.minus(7,'days') }}",
+                            "operator": {
+                                "type": "dateTime",
+                                "operation": "afterOrEquals"
+                            }
+                        }
+                    ],
+                    "combinator": "and"
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.filter",
+            "typeVersion": 2.2,
+            "position": [
+                -192,
+                736
+            ],
+            "id": "404af82e-65ef-481e-bf71-d92706342b40",
+            "name": "Filter"
+        },
+        {
+            "parameters": {
+                "text": "=Title:\n{{ $('No Operation, do nothing').item.json.title }}\nDescription:\n{{ $('No Operation, do nothing').item.json.contentSnippet }}",
+                "schemaType": "manual",
+                "inputSchema": "{\n  \"name\": \"job_posting\",\n  \"schema\": {\n    \"type\": \"object\",\n    \"properties\": {\n      \"title\": {\n        \"type\": \"string\",\n        \"description\": \"The job title\"\n      },\n      \"company_name\":{\n        \"type\": \"string\",\n        \"description\": \"Name of the company\"\n      },\n      \"description\": {\n        \"type\": \"string\",\n        \"description\": \"Detailed description of the job role\"\n      },\n      \"link\": {\n        \"type\": \"string\",\n        \"format\": \"uri\",\n        \"description\": \"Unique URL to the job posting\"\n      },\n      \"hard_skills\": {\n        \"type\": [\"array\", \"null\"],\n        \"description\": \"List of explicitly mentioned technical or measurable skills\",\n        \"items\": {\n          \"type\": \"string\",\n          \"maxLength\": 100\n        },\n        \"maxItems\": 20\n      },\n      \"soft_skills\": {\n        \"type\": [\"array\", \"null\"],\n        \"description\": \"List of explicitly mentioned interpersonal or behavioral skills\",\n        \"items\": {\n          \"type\": \"string\",\n          \"maxLength\": 100\n        },\n        \"maxItems\": 20\n      },\n      \"experience_level\": {\n        \"type\": [\"string\", \"null\"],\n        \"description\": \"Required years of experience (e.g., '0 years', '2 years', '3+ years')\"\n      },\n      \"location\": {\n        \"type\": [\"string\", \"null\"],\n        \"description\": \"Location of the job if explicitly mentioned\"\n      },\n      \"employment_type\": {\n        \"type\": \"string\",\n        \"enum\": [\"full_time\", \"part_time\", \"contract\",\"internship\"],\n        \"description\": \"Type of employment\"\n      },\n      \"work_location\": {\n        \"type\": \"string\",\n        \"enum\": [\"remote\", \"hybrid\", \"onsite\"],\n        \"description\": \"Work arrangement\"\n      },\n      \"job_title_category\": {\n        \"type\": \"string\",\n        \"description\": \"Broad category of the job (e.g., 'legal', 'engineering', 'marketing')\",\n        \"default\": \"other\"\n      },\n      \"posted_on\": {\n        \"type\": \"string\",\n        \"format\": \"date-time\",\n        \"description\": \"Date and time when the job was posted\"\n      },\n      \"requirements\": {\n        \"type\": [\"array\", \"null\"],\n        \"description\": \"List of explicit requirements stated in the job posting\",\n        \"items\": {\n          \"type\": \"string\",\n          \"maxLength\": 300\n        },\n        \"maxItems\": 20\n      }\n    },\n    \"required\": [\n      \"title\",\n      \"description\",\n      \"link\",\n      \"employment_type\",\n      \"work_location\",\n      \"job_title_category\",\n      \"posted_on\"\n    ],\n    \"additionalProperties\": false\n  }\n}\n",
+                "options": {
+                    "systemPromptTemplate": "=You are an expert job information extractor.\nYour task is to analyze raw job posting text and return structured data in valid JSON that strictly follows the provided schema.\n\nExtraction Rules:\n0. company_name → extract the company name if mentioned. If not available, set to null.\n1. title → use the job title exactly as provided.\n2. description → copy the full description text.\n3. link → extract the job application URL.\n4. requirements →\n- Always return as an array of strings (or null if no requirements).\n- Each requirement must be one item in the array.\n- Extract all explicit requirements, including:\n- Education\n- Certifications\n- Work eligibility or residency\n- Equipment / environment setup (e.g., internet, landline, computer)\n- Never collapse them into a single string.\n\n5. hard_skills →\n- Only include learnable, demonstrable technical skills (software, typing speed, language proficiency, certifications).\n- Do not include tools or equipment (those go in requirements).\n- If none are mentioned, set to null.\n\n6. soft_skills →\n- Only include behavioral or interpersonal skills (e.g., communication, teamwork, problem-solving).\n- If none are mentioned, set to null.\n\n7. experience_level →\n- Always in years of experience format (e.g., \"0 years\", \"2 years\", \"3+ years\").\n- If not specified, set to null.\n\n8. location → extract only if explicitly mentioned. Otherwise null.\n9. employment_type → choose from: [\"full_time\", \"part_time\", \"contract\",\"internship\"].\n- Default: \"full_time\".\n\n10. work_location → choose from: [\"remote\", \"hybrid\", \"onsite\"].\nInfer only if explicitly stated.\n\n11. job_title_category → infer a broad category (e.g., \"legal\", \"sales\", \"customer_service\", \"engineering\", \"marketing\"). If unclear, \"other\".\n\n12. posted_on → always return the current date/time in ISO 8601 format.\n\nIf a field has no explicit mention, set it to null (except employment_type, work_location, and posted_on which have defaults)."
+                }
+            },
+            "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+            "typeVersion": 1.2,
+            "position": [
+                0,
+                736
+            ],
+            "id": "91a909d4-3760-48d0-a2ac-cffed6b69197",
+            "name": "Information Extractor"
+        },
+        {
+            "parameters": {
+                "model": {
+                    "__rl": true,
+                    "mode": "list",
+                    "value": "gpt-4.1-mini"
+                },
+                "options": {}
+            },
+            "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+            "typeVersion": 1.2,
+            "position": [
+                0,
+                896
+            ],
+            "id": "430d1238-c612-416c-823d-6672abca6aea",
+            "name": "OpenAI Chat Model1",
+            "credentials": {
+                "openAiApi": {
+                    "id": "UTK7bjHOjHsl32Qb",
+                    "name": "OpenAi account"
+                }
+            }
+        }
+    ],
+    "pinData": {
+        "Schedule Trigger": [
+            {
+                "json": {
+                    "timestamp": "2025-09-07T08:24:53.985+07:00",
+                    "Readable date": "September 7th 2025, 8:24:53 am",
+                    "Readable time": "8:24:53 am",
+                    "Day of week": "Sunday",
+                    "Year": "2025",
+                    "Month": "September",
+                    "Day of month": "07",
+                    "Hour": "08",
+                    "Minute": "24",
+                    "Second": "53",
+                    "Timezone": "Asia/Jakarta (UTC+07:00)"
+                }
+            }
+        ]
+    },
+    "connections": {
+        "Schedule Trigger": {
+            "main": [
+                [
+                    {
+                        "node": "Full Stack",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "Backend programmer",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "Frontend programmer",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "All Programming",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "Sales and Marketing",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "Management & Finance",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "Design",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "Devops and Sysadmin",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "Others",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "Product",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "Customer support",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Customer support": {
+            "main": [
+                [
+                    {
+                        "node": "Filter",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Check if link already saved": {
+            "main": [
+                [
+                    {
+                        "node": "Compare Datasets",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Product": {
+            "main": [
+                [
+                    {
+                        "node": "Filter",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Full Stack": {
+            "main": [
+                [
+                    {
+                        "node": "Filter",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Backend programmer": {
+            "main": [
+                [
+                    {
+                        "node": "Filter",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Frontend programmer": {
+            "main": [
+                [
+                    {
+                        "node": "Filter",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "All Programming": {
+            "main": [
+                [
+                    {
+                        "node": "Filter",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Sales and Marketing": {
+            "main": [
+                [
+                    {
+                        "node": "Filter",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Management & Finance": {
+            "main": [
+                [
+                    {
+                        "node": "Filter",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Design": {
+            "main": [
+                [
+                    {
+                        "node": "Filter",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Devops and Sysadmin": {
+            "main": [
+                [
+                    {
+                        "node": "Filter",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Others": {
+            "main": [
+                [
+                    {
+                        "node": "Filter",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Crypto": {
+            "main": [
+                [
+                    {
+                        "node": "Insert rows in a table",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "No Operation, do nothing": {
+            "main": [
+                [
+                    {
+                        "node": "Check if link already saved",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "Compare Datasets",
+                        "type": "main",
+                        "index": 1
+                    }
+                ]
+            ]
+        },
+        "Compare Datasets": {
+            "main": [
+                [],
+                [],
+                [],
+                [
+                    {
+                        "node": "Information Extractor",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Filter": {
+            "main": [
+                [
+                    {
+                        "node": "No Operation, do nothing",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "OpenAI Chat Model1": {
+            "ai_languageModel": [
+                [
+                    {
+                        "node": "Information Extractor",
+                        "type": "ai_languageModel",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Information Extractor": {
+            "main": [
+                [
+                    {
+                        "node": "Crypto",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "active": true,
+    "settings": {
+        "executionOrder": "v1",
+        "timezone": "Asia/Jakarta",
+        "callerPolicy": "workflowsFromSameOwner",
+        "errorWorkflow": "N8fp4udiDS8wXTHr"
+    },
+    "versionId": "76c63a2e-52a1-4eaa-961d-44d8815ed606",
+    "meta": {
+        "templateCredsSetupCompleted": true,
+        "instanceId": "89e2a250d45889b5289558a035ce2e28d92dbbc44cf5b073e78170b402bc213c"
+    },
+    "id": "VeE9TtkMO5cdaWIn",
+    "tags": []
+}

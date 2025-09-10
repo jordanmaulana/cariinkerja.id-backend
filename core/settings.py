@@ -161,3 +161,5 @@ EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 
 BACKEND_URL = os.environ.get("BACKEND_URL", "http://localhost:8000")
+
+CSRF_TRUSTED_ORIGINS = ["https://api.cariinkerja.id"]

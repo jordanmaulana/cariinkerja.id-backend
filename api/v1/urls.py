@@ -2,8 +2,8 @@ from django.urls import include, path
 from rest_framework import routers
 
 from api.v1.api.auth_api import AuthAPI
+from api.v1.api.jobs_api import JobAssessmentAPI, JobsAPI
 from api.v1.api.profile_api import ProfileAPI
-from api.v1.api.jobs_api import JobsAPI, JobAssessmentAPI
 
 api_router = routers.DefaultRouter()
 api_router.register(r"auth", AuthAPI, basename="auth")

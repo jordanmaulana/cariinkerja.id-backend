@@ -12,3 +12,9 @@ WORK_LOCATION_CHOICES = [
     ("onsite", "Onsite"),
     ("hybrid", "Hybrid"),
 ]
+
+# Source platform choices
+SOURCE_PLATFORM_CHOICES = [
+    ("weworkremotely.com", "WeWorkRemotely"),
+    ("indeed.com", "Indeed"),
+]

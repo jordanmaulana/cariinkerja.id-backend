@@ -4,7 +4,7 @@ from django.utils import timezone
 
 from core.models import BaseModel
 
-from .consts import EMPLOYMENT_TYPE_CHOICES, WORK_LOCATION_CHOICES
+from .consts import EMPLOYMENT_TYPE_CHOICES, WORK_LOCATION_CHOICES, SOURCE_PLATFORM_CHOICES
 
 
 # Create your models here.
@@ -36,7 +36,11 @@ class Jobs(BaseModel):
         models.CharField(max_length=800), size=20, null=True, blank=True, default=list
     )
     company_name = models.CharField(max_length=255, null=True, blank=True)
-    source_platform = models.CharField(max_length=255, default="weworkremotely.com")
+    source_platform = models.CharField(
+        max_length=255,
+        choices=SOURCE_PLATFORM_CHOICES,
+        default="weworkremotely.com",
+    )
 
 
 class JobAssessment(BaseModel):

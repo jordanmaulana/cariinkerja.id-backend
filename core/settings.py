@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "rest_framework",
     "rest_framework.authtoken",
+    "django_filters",
     "drf_yasg",
     "apps.profiles",
     "apps.jobs",
@@ -145,6 +146,11 @@ LOGIN_URL = "/login/"
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.TokenAuthentication",
+    ],
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend",
+        "rest_framework.filters.SearchFilter",
+        "rest_framework.filters.OrderingFilter",
     ],
 }
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"

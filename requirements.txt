@@ -32,6 +32,7 @@ deepdiff==7.0.1
 Deprecated==1.2.18
 Django==5.2.1
 django-extensions==4.1
+django-filter==24.3
 django-unfold==0.59.0
 djangorestframework==3.16.0
 djlint==1.36.4

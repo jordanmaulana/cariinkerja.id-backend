@@ -86,6 +86,7 @@ This project requires **n8n** to automatically feed job data into the database. 
 
 The `n8n_nodes/` folder contains pre-built workflow configurations:
 - **weworkremotely.json**: Workflow for scraping remote job listings from WeWorkRemotely
+- **indeed.json**: Workflow for scraping job listings from Indeed
 
 ### Setting up n8n Workflows
 

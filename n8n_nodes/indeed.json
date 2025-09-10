@@ -1,0 +1,885 @@
+{
+    "name": "Indeed Feed",
+    "nodes": [
+        {
+            "parameters": {
+                "rule": {
+                    "interval": [
+                        {
+                            "triggerAtHour": 7
+                        }
+                    ]
+                }
+            },
+            "type": "n8n-nodes-base.scheduleTrigger",
+            "typeVersion": 1.2,
+            "position": [
+                16,
+                -144
+            ],
+            "id": "c0c0733a-0b4a-4235-b279-74084f691f99",
+            "name": "Schedule Trigger"
+        },
+        {
+            "parameters": {
+                "url": "={{ $json.link }}",
+                "options": {
+                    "browserWSEndpoint": "ws://browserless:3000",
+                    "waitUntil": "domcontentloaded",
+                    "headless": true
+                }
+            },
+            "type": "n8n-nodes-puppeteer.puppeteer",
+            "typeVersion": 1,
+            "position": [
+                512,
+                -144
+            ],
+            "id": "2f840d33-a18f-4ccb-8a50-1f8419babfb5",
+            "name": "Puppeteer"
+        },
+        {
+            "parameters": {
+                "jsCode": "function removeNewlines(str) {\n  return str.replace(/\\n/g, '');\n}\n// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.body = removeNewlines(item.json.body);\n}\n\nreturn $input.all();"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                832,
+                -144
+            ],
+            "id": "7e209f16-26fa-434b-aac3-bd707dd6b17d",
+            "name": "Remove newlines"
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "2cacba6b-6c38-44dc-b166-d5b6dc332b97",
+                            "name": "body",
+                            "value": "={{ $json.body }}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [
+                672,
+                -144
+            ],
+            "id": "c65c564e-fd27-42ff-beba-2c3873b25fe1",
+            "name": "Extract body"
+        },
+        {
+            "parameters": {
+                "operation": "select",
+                "schema": {
+                    "__rl": true,
+                    "mode": "list",
+                    "value": "public"
+                },
+                "table": {
+                    "__rl": true,
+                    "value": "jobs_jobs",
+                    "mode": "list",
+                    "cachedResultName": "jobs_jobs"
+                },
+                "returnAll": true,
+                "where": {
+                    "values": [
+                        {
+                            "column": "link",
+                            "value": "={{ $json.link }}"
+                        }
+                    ]
+                },
+                "options": {
+                    "queryBatching": "single"
+                }
+            },
+            "type": "n8n-nodes-base.postgres",
+            "typeVersion": 2.6,
+            "position": [
+                672,
+                64
+            ],
+            "id": "1e53e3f0-525d-4a87-8c95-4fc87394e575",
+            "name": "Check if link already saved",
+            "alwaysOutputData": true,
+            "notesInFlow": true,
+            "credentials": {
+                "postgres": {
+                    "id": "NPrKnZroLd8ehTQS",
+                    "name": "cariinkerja"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "action": "generate",
+                "encodingType": "hex"
+            },
+            "type": "n8n-nodes-base.crypto",
+            "typeVersion": 1,
+            "position": [
+                1440,
+                400
+            ],
+            "id": "94df1189-7bd7-4d36-9917-1bf4a51b04eb",
+            "name": "Crypto"
+        },
+        {
+            "parameters": {
+                "mergeByFields": {
+                    "values": [
+                        {
+                            "field1": "link",
+                            "field2": "link"
+                        }
+                    ]
+                },
+                "resolve": "preferInput2",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.compareDatasets",
+            "typeVersion": 2.3,
+            "position": [
+                896,
+                112
+            ],
+            "id": "ffd3525d-28be-4dbf-a408-39f409ecf33b",
+            "name": "Compare Datasets",
+            "executeOnce": false
+        },
+        {
+            "parameters": {
+                "schema": {
+                    "__rl": true,
+                    "mode": "list",
+                    "value": "public"
+                },
+                "table": {
+                    "__rl": true,
+                    "value": "jobs_jobs",
+                    "mode": "list",
+                    "cachedResultName": "jobs_jobs"
+                },
+                "columns": {
+                    "mappingMode": "defineBelow",
+                    "value": {
+                        "uid": "={{ $json.data }}",
+                        "created_on": "={{ $now }}",
+                        "updated_on": "={{ $now }}",
+                        "title": "={{ $('No Operation, do nothing').item.json.title }}",
+                        "description": "={{ $('No Operation, do nothing').item.json.description }}",
+                        "link": "={{ $('No Operation, do nothing').item.json.link }}",
+                        "hard_skills": "={{ $json.output.hard_skills??[] }}",
+                        "soft_skills": "={{ $json.output.soft_skills??[] }}",
+                        "experience_level": "={{ $json.output.experience_level??[] }}",
+                        "location": "={{ $json.output.location }}",
+                        "employment_type": "={{ $json.output.employment_type??\"full_time\" }}",
+                        "job_title_category": "={{ $('Setup Preference').item.json.job_title??\"others\" }}",
+                        "work_location": "={{ $json.output.work_location??\"remote\" }}",
+                        "requirements": "={{ $json.output.requirements }}",
+                        "company_name": "={{ $json.output.company_name }}",
+                        "source_platform": "indeed.com"
+                    },
+                    "matchingColumns": [
+                        "id"
+                    ],
+                    "schema": [
+                        {
+                            "id": "id",
+                            "displayName": "id",
+                            "required": false,
+                            "defaultMatch": true,
+                            "display": true,
+                            "type": "number",
+                            "canBeUsedToMatch": true,
+                            "removed": true
+                        },
+                        {
+                            "id": "uid",
+                            "displayName": "uid",
+                            "required": true,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "string",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "created_on",
+                            "displayName": "created_on",
+                            "required": true,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "dateTime",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "updated_on",
+                            "displayName": "updated_on",
+                            "required": true,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "dateTime",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "title",
+                            "displayName": "title",
+                            "required": true,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "string",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "description",
+                            "displayName": "description",
+                            "required": true,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "string",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "link",
+                            "displayName": "link",
+                            "required": true,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "string",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "hard_skills",
+                            "displayName": "hard_skills",
+                            "required": false,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "array",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "soft_skills",
+                            "displayName": "soft_skills",
+                            "required": false,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "array",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "experience_level",
+                            "displayName": "experience_level",
+                            "required": false,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "string",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "location",
+                            "displayName": "location",
+                            "required": false,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "string",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "actor_id",
+                            "displayName": "actor_id",
+                            "required": false,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "number",
+                            "canBeUsedToMatch": true,
+                            "removed": true
+                        },
+                        {
+                            "id": "employment_type",
+                            "displayName": "employment_type",
+                            "required": true,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "string",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "job_title_category",
+                            "displayName": "job_title_category",
+                            "required": true,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "string",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "work_location",
+                            "displayName": "work_location",
+                            "required": true,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "string",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "posted_on",
+                            "displayName": "posted_on",
+                            "required": false,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "dateTime",
+                            "canBeUsedToMatch": true,
+                            "removed": true
+                        },
+                        {
+                            "id": "requirements",
+                            "displayName": "requirements",
+                            "required": false,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "array",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "company_name",
+                            "displayName": "company_name",
+                            "required": false,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "string",
+                            "canBeUsedToMatch": true,
+                            "removed": false
+                        },
+                        {
+                            "id": "source_platform",
+                            "displayName": "source_platform",
+                            "required": true,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "string",
+                            "canBeUsedToMatch": true,
+                            "removed": false
+                        }
+                    ],
+                    "attemptToConvertTypes": false,
+                    "convertFieldsToString": false
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.postgres",
+            "typeVersion": 2.6,
+            "position": [
+                1584,
+                400
+            ],
+            "id": "00ddbf42-95bf-4d4c-be39-9d860b9ef4b1",
+            "name": "Insert rows in a table",
+            "credentials": {
+                "postgres": {
+                    "id": "NPrKnZroLd8ehTQS",
+                    "name": "cariinkerja"
+                }
+            },
+            "onError": "continueRegularOutput"
+        },
+        {
+            "parameters": {
+                "text": "=Title:\n{{ $('No Operation, do nothing').item.json.title }}\nDescription:\n{{ $('No Operation, do nothing').item.json.description }}",
+                "schemaType": "manual",
+                "inputSchema": "{\n  \"name\": \"job_posting\",\n  \"schema\": {\n    \"type\": \"object\",\n    \"properties\": {\n      \"title\": {\n        \"type\": \"string\",\n        \"description\": \"The job title\"\n      },\n      \"company_name\":{\n        \"type\": \"string\",\n        \"description\": \"Name of the company\"\n      },\n      \"description\": {\n        \"type\": \"string\",\n        \"description\": \"Detailed description of the job role\"\n      },\n      \"link\": {\n        \"type\": \"string\",\n        \"format\": \"uri\",\n        \"description\": \"Unique URL to the job posting\"\n      },\n      \"hard_skills\": {\n        \"type\": [\"array\", \"null\"],\n        \"description\": \"List of explicitly mentioned technical or measurable skills\",\n        \"items\": {\n          \"type\": \"string\",\n          \"maxLength\": 100\n        },\n        \"maxItems\": 20\n      },\n      \"soft_skills\": {\n        \"type\": [\"array\", \"null\"],\n        \"description\": \"List of explicitly mentioned interpersonal or behavioral skills\",\n        \"items\": {\n          \"type\": \"string\",\n          \"maxLength\": 100\n        },\n        \"maxItems\": 20\n      },\n      \"experience_level\": {\n        \"type\": [\"string\", \"null\"],\n        \"description\": \"Required years of experience (e.g., '0 years', '2 years', '3+ years')\"\n      },\n      \"location\": {\n        \"type\": [\"string\", \"null\"],\n        \"description\": \"Location of the job if explicitly mentioned\"\n      },\n      \"employment_type\": {\n        \"type\": \"string\",\n        \"enum\": [\"full_time\", \"part_time\", \"contract\",\"internship\"],\n        \"description\": \"Type of employment\"\n      },\n      \"work_location\": {\n        \"type\": \"string\",\n        \"enum\": [\"remote\", \"hybrid\", \"onsite\"],\n        \"description\": \"Work arrangement\"\n      },\n      \"job_title_category\": {\n        \"type\": \"string\",\n        \"description\": \"Broad category of the job (e.g., 'legal', 'engineering', 'marketing')\",\n        \"default\": \"other\"\n      },\n      \"posted_on\": {\n        \"type\": \"string\",\n        \"format\": \"date-time\",\n        \"description\": \"Date and time when the job was posted\"\n      },\n      \"requirements\": {\n        \"type\": [\"array\", \"null\"],\n        \"description\": \"List of explicit requirements stated in the job posting\",\n        \"items\": {\n          \"type\": \"string\",\n          \"maxLength\": 300\n        },\n        \"maxItems\": 20\n      }\n    },\n    \"required\": [\n      \"title\",\n      \"description\",\n      \"link\",\n      \"employment_type\",\n      \"work_location\",\n      \"job_title_category\",\n      \"posted_on\"\n    ],\n    \"additionalProperties\": false\n  }\n}\n",
+                "options": {
+                    "systemPromptTemplate": "=You are an expert job information extractor.\nYour task is to analyze raw job posting text and return structured data in valid JSON that strictly follows the provided schema.\n\nExtraction Rules:\n0. company_name → extract the company name if mentioned. If not available, set to null.\n1. title → use the job title exactly as provided.\n2. description → copy the full description text.\n3. link → extract the job application URL.\n4. requirements →\n- Always return as an array of strings (or null if no requirements).\n- Each requirement must be one item in the array.\n- Extract all explicit requirements, including:\n- Education\n- Certifications\n- Work eligibility or residency\n- Equipment / environment setup (e.g., internet, landline, computer)\n- Never collapse them into a single string.\n\n5. hard_skills →\n- Only include learnable, demonstrable technical skills (software, typing speed, language proficiency, certifications).\n- Do not include tools or equipment (those go in requirements).\n- If none are mentioned, set to null.\n\n6. soft_skills →\n- Only include behavioral or interpersonal skills (e.g., communication, teamwork, problem-solving).\n- If none are mentioned, set to null.\n\n7. experience_level →\n- Always in years of experience format (e.g., \"0 years\", \"2 years\", \"3+ years\").\n- If not specified, set to null.\n\n8. location → extract only if explicitly mentioned. Otherwise null.\n9. employment_type → choose from: [\"full_time\", \"part_time\", \"contract\",\"internship\"].\n- Default: \"full_time\".\n\n10. work_location → choose from: [\"remote\", \"hybrid\", \"onsite\"].\nInfer only if explicitly stated.\n\n11. job_title_category → infer a broad category (e.g., \"legal\", \"sales\", \"customer_service\", \"engineering\", \"marketing\"). If unclear, \"other\".\n\n12. posted_on → always return the current date/time in ISO 8601 format.\n\nIf a field has no explicit mention, set it to null (except employment_type, work_location, and posted_on which have defaults)."
+                }
+            },
+            "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+            "typeVersion": 1.2,
+            "position": [
+                1184,
+                400
+            ],
+            "id": "132241f3-2add-4f29-bfed-18846f4ee152",
+            "name": "Information Extractor"
+        },
+        {
+            "parameters": {
+                "model": {
+                    "__rl": true,
+                    "mode": "list",
+                    "value": "gpt-4.1-mini"
+                },
+                "options": {}
+            },
+            "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+            "typeVersion": 1.2,
+            "position": [
+                1184,
+                560
+            ],
+            "id": "c92745f0-cdba-4f15-bb4b-326c93a5d690",
+            "name": "OpenAI Chat Model1",
+            "credentials": {
+                "openAiApi": {
+                    "id": "UTK7bjHOjHsl32Qb",
+                    "name": "OpenAi account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "fieldToSplitOut": "vjks",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.splitOut",
+            "typeVersion": 1,
+            "position": [
+                16,
+                64
+            ],
+            "id": "7341057d-e554-414b-9bdd-d1c4e3d2253f",
+            "name": "Split Out"
+        },
+        {
+            "parameters": {
+                "url": "={{ $json.link }}",
+                "options": {
+                    "browserWSEndpoint": "ws://browserless:3000",
+                    "waitUntil": "domcontentloaded",
+                    "headless": true
+                }
+            },
+            "type": "n8n-nodes-puppeteer.puppeteer",
+            "typeVersion": 1,
+            "position": [
+                432,
+                400
+            ],
+            "id": "0a08057c-e7db-43f6-96eb-e70ff7e8d7dc",
+            "name": "Puppeteer1"
+        },
+        {
+            "parameters": {
+                "jsCode": "function removeNewlines(str) {\n  return str.replace(/\\n/g, '');\n}\n// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.body = removeNewlines(item.json.body);\n}\n\nreturn $input.all();"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                736,
+                400
+            ],
+            "id": "5b9fdb0c-884c-4299-b98f-309008e3190a",
+            "name": "Remove newlines1"
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "2cacba6b-6c38-44dc-b166-d5b6dc332b97",
+                            "name": "body",
+                            "value": "={{ $json.body }}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [
+                576,
+                400
+            ],
+            "id": "4362e322-38be-46ac-aa71-8ca9ba6269f5",
+            "name": "Extract body1"
+        },
+        {
+            "parameters": {
+                "jsCode": "function extractDataJkValues(htmlContent) {\n    try {\n        // Use regex to find all data-jk attributes\n        const dataJkRegex = /data-jk=[\"']([^\"']+)[\"']/g;\n        const matches = [];\n        let match;\n        \n        // Extract all matches\n        while ((match = dataJkRegex.exec(htmlContent)) !== null) {\n            matches.push(match[1]);\n        }\n        \n        // Remove duplicates and return\n        return [...new Set(matches)];\n    } catch (error) {\n        console.log('Error extracting data-jk values:', error.message);\n        return [];\n    }\n}\n\n// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.vjks = extractDataJkValues(item.json.body);\n  item.json.body=\"\";\n}\n\nreturn $input.all();"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                976,
+                -144
+            ],
+            "id": "1ac6c565-7c8c-433a-a5fe-482272493d4d",
+            "name": "Extract links"
+        },
+        {
+            "parameters": {
+                "jsCode": "function extractJobDescription(htmlContent) {\n    try {\n        // Find the script tag containing window._initialData with various possible formats\n    let scriptStart = htmlContent.indexOf('window._initialData = ');\n    let dataVarName = 'window._initialData';\n    \n    // Try alternative formats if the first one doesn't work\n    if (scriptStart === -1) {\n        scriptStart = htmlContent.indexOf('window._initialData=');\n        dataVarName = 'window._initialData';\n    }\n    if (scriptStart === -1) {\n        scriptStart = htmlContent.indexOf('window[\"_initialData\"] = ');\n        dataVarName = 'window[\"_initialData\"]';\n    }\n    if (scriptStart === -1) {\n        scriptStart = htmlContent.indexOf('window[\\'_initialData\\'] = ');\n        dataVarName = 'window[\\'_initialData\\']';\n    }\n    if (scriptStart === -1) {\n        // Try to find any variable assignment that might contain job data\n        const jobDataPatterns = [\n            'window.__INITIAL_STATE__',\n            'window.__APOLLO_STATE__',\n            'window.__NEXT_DATA__',\n            'window.initialData',\n            'window.pageData',\n            'window.jobData'\n        ];\n        \n        for (const pattern of jobDataPatterns) {\n            const patternIndex = htmlContent.indexOf(pattern + ' = ');\n            if (patternIndex !== -1) {\n                scriptStart = patternIndex;\n                dataVarName = pattern;\n                break;\n            }\n        }\n    }\n    \n    if (scriptStart === -1) {\n        console.log('Could not find window._initialData or similar data structure in the HTML content');\n        console.log('Searched for patterns: window._initialData, window.__INITIAL_STATE__, window.__APOLLO_STATE__, window.__NEXT_DATA__, window.initialData, window.pageData, window.jobData');\n        \n        // Debug: Show what window variables are actually present\n        const windowMatches = htmlContent.match(/window\\.[\\w_$]+\\s*=/g) || [];\n        const windowBracketMatches = htmlContent.match(/window\\[[\"'][\\w_$]+[\"']\\]\\s*=/g) || [];\n        \n        if (windowMatches.length > 0 || windowBracketMatches.length > 0) {\n            console.log('\\nFound these window variable assignments in the HTML:');\n            [...new Set([...windowMatches, ...windowBracketMatches])].forEach(match => {\n                console.log('- ' + match.replace(/\\s*=$/, ''));\n            });\n            console.log('\\nTry using one of these variable names in your extraction logic.');\n        } else {\n            console.log('\\nNo window variable assignments found in the HTML content.');\n        }\n        \n        return null;\n    }\n        \n        // Find the start of the JSON object\n        const jsonStart = htmlContent.indexOf('{', scriptStart);\n        if (jsonStart === -1) {\n            console.log('Could not find JSON start in window._initialData');\n            return null;\n        }\n        \n        // Find the end of the JSON object by counting braces\n        let braceCount = 0;\n        let jsonEnd = jsonStart;\n        let inString = false;\n        let escapeNext = false;\n        \n        for (let i = jsonStart; i < htmlContent.length; i++) {\n            const char = htmlContent[i];\n            \n            if (escapeNext) {\n                escapeNext = false;\n                continue;\n            }\n            \n            if (char === '\\\\') {\n                escapeNext = true;\n                continue;\n            }\n            \n            if (char === '\"' && !escapeNext) {\n                inString = !inString;\n                continue;\n            }\n            \n            if (!inString) {\n                if (char === '{') {\n                    braceCount++;\n                } else if (char === '}') {\n                    braceCount--;\n                    if (braceCount === 0) {\n                        jsonEnd = i + 1;\n                        break;\n                    }\n                }\n            }\n        }\n        \n        // Extract and parse the JSON\n        const jsonString = htmlContent.substring(jsonStart, jsonEnd);\n        const initialData = JSON.parse(jsonString);\n        \n        // Try multiple paths to find job data\n        let jobData = null;\n        \n        // Path 1: hostQueryExecutionResult\n        if (initialData?.hostQueryExecutionResult?.data?.jobData?.results?.[0]?.job) {\n            jobData = initialData.hostQueryExecutionResult.data.jobData.results[0].job;\n        }\n        // Path 2: autoOpenTwoPaneViewjobResponse (alternative path)\n        else if (initialData?.autoOpenTwoPaneViewjobResponse?.body?.hostQueryExecutionResult?.data?.jobData?.results?.[0]?.job) {\n            jobData = initialData.autoOpenTwoPaneViewjobResponse.body.hostQueryExecutionResult.data.jobData.results[0].job;\n        }\n        // Path 3: Direct job data in autoOpenTwoPaneViewjobResponse\n        else if (initialData?.autoOpenTwoPaneViewjobResponse?.body?.job) {\n            jobData = initialData.autoOpenTwoPaneViewjobResponse.body.job;\n        }\n        \n        if (!jobData) {\n            console.log('Could not find job data in any known path');\n            return null;\n        }\n        \n        // Extract relevant job information\n        const jobInfo = {\n            title: jobData.title,\n            company: jobData.sourceEmployerName,\n            location: {\n                city: jobData.location?.city,\n                country: jobData.location?.countryCode,\n                fullAddress: jobData.location?.fullAddress,\n                formatted: jobData.location?.formatted\n            },\n            description: jobData.description?.text,\n            jobKey: jobData.key,\n            datePublished: jobData.datePublished,\n            expired: jobData.expired,\n            jobTypes: jobData.jobTypes?.map(type => type.label) || [],\n            attributes: jobData.attributes?.map(attr => attr.label) || [],\n            url: jobData.url,\n            employer: {\n                key: jobData.employer?.key,\n                tier: jobData.employer?.tier,\n                companyPageUrl: jobData.employer?.relativeCompanyPageUrl,\n                reviewCount: jobData.employer?.ugcStats?.globalReviewCount,\n                overallRating: jobData.employer?.ugcStats?.ratings?.overallRating\n            }\n        };\n        \n        return jobInfo;\n        \n    } catch (error) {\n        console.log('Error parsing job description:', error);\n        return null;\n    }\n}\n\n// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  const jobInfo = extractJobDescription(item.json.body);\n  item.json.title = jobInfo?.title;\n  item.json.company = jobInfo?.company;\n  item.json.description = jobInfo?.description;\n  item.json.link = $('Loop Over Items').first().json.link\n  item.json.body=\"\";\n}\n\nreturn $input.all();"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                896,
+                400
+            ],
+            "id": "980eaaa0-bf84-4d4d-8dcc-9a2807e75e17",
+            "name": "Extract job info"
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "b39f9947-3a70-493c-8d40-4734dfae91a1",
+                            "name": "link",
+                            "value": "=https://id.indeed.com/jobs?q=flutter&l=&from=searchOnDesktopSerp&vjk={{ $json.vjks }}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [
+                192,
+                64
+            ],
+            "id": "7ffe0b2e-a209-4f85-9f8f-498837d21881",
+            "name": "Setup link"
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "4aed8277-e3a9-413c-a925-77ef492d9ae9",
+                            "name": "job_title",
+                            "value": "flutter",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [
+                176,
+                -144
+            ],
+            "id": "1333196a-b955-4cb7-b6d9-aff261ce0b3b",
+            "name": "Setup Preference"
+        },
+        {
+            "parameters": {
+                "batchSize": "=1",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.splitInBatches",
+            "typeVersion": 3,
+            "position": [
+                432,
+                64
+            ],
+            "id": "2692fce7-97b4-4761-9f73-e10b123ec0de",
+            "name": "Loop Over Items"
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "858ac26c-9e0c-4508-929f-c66f66fd0592",
+                            "name": "=link",
+                            "value": "=https://id.indeed.com/jobs?q={{ $json.job_title }}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [
+                336,
+                -144
+            ],
+            "id": "d583d641-0eab-4d65-9079-7071e1d77316",
+            "name": "Setup initial link"
+        },
+        {
+            "parameters": {},
+            "type": "n8n-nodes-base.noOp",
+            "typeVersion": 1,
+            "position": [
+                1040,
+                400
+            ],
+            "id": "aa0e3c2c-6519-4771-818c-1c457d5f519b",
+            "name": "No Operation, do nothing"
+        }
+    ],
+    "pinData": {},
+    "connections": {
+        "Schedule Trigger": {
+            "main": [
+                [
+                    {
+                        "node": "Setup Preference",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Puppeteer": {
+            "main": [
+                [
+                    {
+                        "node": "Extract body",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Extract body": {
+            "main": [
+                [
+                    {
+                        "node": "Remove newlines",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Remove newlines": {
+            "main": [
+                [
+                    {
+                        "node": "Extract links",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Check if link already saved": {
+            "main": [
+                [
+                    {
+                        "node": "Compare Datasets",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Crypto": {
+            "main": [
+                [
+                    {
+                        "node": "Insert rows in a table",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Compare Datasets": {
+            "main": [
+                [],
+                [],
+                [
+                    {
+                        "node": "Loop Over Items",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Puppeteer1",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Information Extractor": {
+            "main": [
+                [
+                    {
+                        "node": "Crypto",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "OpenAI Chat Model1": {
+            "ai_languageModel": [
+                [
+                    {
+                        "node": "Information Extractor",
+                        "type": "ai_languageModel",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Split Out": {
+            "main": [
+                [
+                    {
+                        "node": "Setup link",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Puppeteer1": {
+            "main": [
+                [
+                    {
+                        "node": "Extract body1",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Remove newlines1": {
+            "main": [
+                [
+                    {
+                        "node": "Extract job info",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Extract body1": {
+            "main": [
+                [
+                    {
+                        "node": "Remove newlines1",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Extract links": {
+            "main": [
+                [
+                    {
+                        "node": "Split Out",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Extract job info": {
+            "main": [
+                [
+                    {
+                        "node": "No Operation, do nothing",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Setup link": {
+            "main": [
+                [
+                    {
+                        "node": "Loop Over Items",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Setup Preference": {
+            "main": [
+                [
+                    {
+                        "node": "Setup initial link",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Insert rows in a table": {
+            "main": [
+                [
+                    {
+                        "node": "Loop Over Items",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Loop Over Items": {
+            "main": [
+                [],
+                [
+                    {
+                        "node": "Check if link already saved",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "Compare Datasets",
+                        "type": "main",
+                        "index": 1
+                    }
+                ]
+            ]
+        },
+        "Setup initial link": {
+            "main": [
+                [
+                    {
+                        "node": "Puppeteer",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "No Operation, do nothing": {
+            "main": [
+                [
+                    {
+                        "node": "Information Extractor",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "active": true,
+    "settings": {
+        "executionOrder": "v1",
+        "timezone": "Asia/Jakarta",
+        "callerPolicy": "workflowsFromSameOwner"
+    },
+    "versionId": "c5c9d94d-3e2a-4554-a6a0-1d11f66bc718",
+    "meta": {
+        "instanceId": "89e2a250d45889b5289558a035ce2e28d92dbbc44cf5b073e78170b402bc213c"
+    },
+    "id": "VuYVtiNNuLmIj40E",
+    "tags": []
+}
